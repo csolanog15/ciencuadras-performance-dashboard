@@ -3,143 +3,232 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ciencuadras Performance Dashboard</title>
+  <title>Ciencuadras — Dashboard de Performance</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Montserrat', sans-serif; }
-    .metric-good { color: #16a34a; }
-    .metric-needs-improvement { color: #d97706; }
-    .metric-poor { color: #dc2626; }
-    .prose h1 { font-size: 1.5rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.5rem; }
-    .prose h2 { font-size: 1.25rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.5rem; color: #253150; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.5rem; }
-    .prose h3 { font-size: 1.1rem; font-weight: 600; margin-top: 1rem; margin-bottom: 0.25rem; }
-    .prose p { margin: 0.5rem 0; line-height: 1.6; }
-    .prose ul, .prose ol { margin: 0.5rem 0; padding-left: 1.5rem; }
-    .prose li { margin: 0.35rem 0; line-height: 1.5; }
-    .prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.875rem; }
-    .prose th, .prose td { border: 1px solid #e5e7eb; padding: 0.5rem 0.75rem; text-align: left; }
-    .prose th { background: #f9fafb; font-weight: 600; }
-    .prose code { background: #f3f4f6; padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.8rem; font-family: monospace; }
-    .prose pre { background: #1f2937; color: #f9fafb; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; margin: 0.75rem 0; }
-    .prose pre code { background: transparent; color: inherit; padding: 0; }
-    .prose hr { margin: 1.5rem 0; border-color: #e5e7eb; }
-    .prose strong { font-weight: 700; }
-    .prose a { color: #3e98cc; text-decoration: underline; }
+    body { font-family: 'Montserrat', sans-serif; background: #f0f3f4; }
+    .tab-btn { transition: all 0.2s ease; }
+    .tab-btn.active { border-bottom: 3px solid #3e98cc; color: #00273d; font-weight: 600; }
+    .tab-btn:not(.active) { color: #6b7280; }
+    .tab-btn:hover:not(.active) { color: #3e98cc; }
+    .score-ring { width: 72px; height: 72px; border-radius: 50%; display: flex;
+      align-items: center; justify-content: center; font-weight: 700; font-size: 1.25rem; }
+    .score-green { background: #d1fae5; color: #065f46; border: 3px solid #10b981; }
+    .score-yellow { background: #fef3c7; color: #92400e; border: 3px solid #f59e0b; }
+    .score-red { background: #fee2e2; color: #991b1b; border: 3px solid #ef4444; }
+    .badge { display: inline-flex; align-items: center; padding: 2px 8px;
+      border-radius: 9999px; font-size: 0.7rem; font-weight: 600; }
+    .badge-good { background: #d1fae5; color: #065f46; }
+    .badge-needs { background: #fef3c7; color: #92400e; }
+    .badge-poor { background: #fee2e2; color: #991b1b; }
+    .card { background: #fff; border-radius: 8px; border: 1px solid #e5e7eb; }
+    .metric-label { font-size: 0.7rem; color: #6b7280; text-transform: uppercase;
+      letter-spacing: 0.05em; }
+    .threshold-ref { font-size: 0.65rem; color: #9ca3af; }
+    canvas { max-height: 280px; }
   </style>
 </head>
-<body class="bg-gray-50 min-h-screen">
-  <header class="bg-gradient-to-r from-[#253150] to-[#3e98cc] text-white py-6 shadow-lg">
-    <div class="max-w-7xl mx-auto px-6">
-      <h1 class="text-3xl font-bold">Ciencuadras Performance Dashboard</h1>
-      <p class="text-blue-100 mt-1">Core Web Vitals &mdash; Monitoreo automatizado</p>
+<body class="min-h-screen p-4 md:p-6">
+
+  <!-- Header -->
+  <header class="max-w-7xl mx-auto mb-6">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+      <div>
+        <h1 class="text-2xl font-bold" style="color:#00273d;">Performance Dashboard</h1>
+        <p class="text-sm text-gray-500" id="subtitle">Ciencuadras — Core Web Vitals</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="text-right">
+          <p class="text-xs text-gray-400">Última medición</p>
+          <p class="text-sm font-semibold text-gray-700" id="lastDate">—</p>
+        </div>
+        <div class="score-ring score-yellow" id="globalScore" title="Score promedio general" aria-label="Score promedio general">—</div>
+      </div>
     </div>
   </header>
-  <main class="max-w-7xl mx-auto px-6 py-8">
-    <div class="flex border-b mb-8">
-      <button id="tabMetrics" onclick="showTab('metrics')" class="px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600">Metricas</button>
-      <button id="tabRecs" onclick="showTab('recs')" class="px-6 py-3 font-semibold border-b-2 border-transparent text-gray-500 hover:text-gray-700">Recomendaciones del Dia</button>
+  <!-- Tabs -->
+  <nav class="max-w-7xl mx-auto mb-6 border-b border-gray-200" role="tablist" aria-label="Secciones del dashboard">
+    <div class="flex gap-6">
+      <button class="tab-btn active pb-3 text-sm" data-tab="resumen" role="tab" aria-selected="true">Resumen</button>
+      <button class="tab-btn pb-3 text-sm" data-tab="detalle" role="tab" aria-selected="false">Detalle por Página</button>
+      <button class="tab-btn pb-3 text-sm" data-tab="recomendaciones" role="tab" aria-selected="false">Recomendaciones</button>
     </div>
-    <div id="sectionMetrics">
-      <div class="flex gap-4 mb-8 flex-wrap">
-        <select id="strategyFilter" class="border rounded-lg px-4 py-2 bg-white shadow-sm">
-          <option value="all">Todas</option>
-          <option value="mobile">Mobile</option>
-          <option value="desktop">Desktop</option>
-        </select>
-        <select id="pageFilter" class="border rounded-lg px-4 py-2 bg-white shadow-sm">
-          <option value="all">Todas</option>
-          <option value="Home">Home</option>
-          <option value="Arriendo">Arriendo</option>
-          <option value="Venta">Venta</option>
-        </select>
-        <span id="lastUpdate" class="ml-auto text-sm text-gray-500 self-center"></span>
-      </div>
-      <div id="scoreCards" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10"></div>
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
-        <div class="bg-white rounded-xl shadow p-6"><h3 class="font-bold text-lg mb-4">Performance Score</h3><canvas id="scoreChart"></canvas></div>
-        <div class="bg-white rounded-xl shadow p-6"><h3 class="font-bold text-lg mb-4">LCP (ms)</h3><canvas id="lcpChart"></canvas></div>
-        <div class="bg-white rounded-xl shadow p-6"><h3 class="font-bold text-lg mb-4">CLS</h3><canvas id="clsChart"></canvas></div>
-        <div class="bg-white rounded-xl shadow p-6"><h3 class="font-bold text-lg mb-4">TBT (ms)</h3><canvas id="tbtChart"></canvas></div>
-      </div>
-      <div class="bg-white rounded-xl shadow p-6">
-        <h3 class="font-bold text-lg mb-4">Ultimos Resultados</h3>
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead class="bg-gray-50">
-              <tr><th class="px-4 py-3 text-left">Pagina</th><th class="px-4 py-3">Device</th><th class="px-4 py-3">Score</th><th class="px-4 py-3">LCP</th><th class="px-4 py-3">CLS</th><th class="px-4 py-3">TBT</th><th class="px-4 py-3">FCP</th></tr>
-            </thead>
-            <tbody id="resultsTable"></tbody>
-          </table>
+  </nav>
+  <!-- Tab: Resumen -->
+  <section id="tab-resumen" class="max-w-7xl mx-auto space-y-6" role="tabpanel">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="card p-5">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-xs font-semibold uppercase tracking-wide" style="color:#3e98cc;">Mobile</span>
+          <span class="badge badge-needs" id="mobileBadge">—</span>
         </div>
+        <div class="flex items-center gap-4">
+          <div class="score-ring score-yellow" id="mobileAvgScore" aria-label="Score mobile promedio">—</div>
+          <div class="flex-1 grid grid-cols-3 gap-3" id="mobileMetrics"></div>
+        </div>
+        <p class="threshold-ref mt-2">Umbrales: LCP ≤2.5s | CLS ≤0.1 | TBT ≤200ms</p>
+      </div>
+      <div class="card p-5">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-xs font-semibold uppercase tracking-wide" style="color:#3e98cc;">Desktop</span>
+          <span class="badge badge-good" id="desktopBadge">—</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="score-ring score-green" id="desktopAvgScore" aria-label="Score desktop promedio">—</div>
+          <div class="flex-1 grid grid-cols-3 gap-3" id="desktopMetrics"></div>
+        </div>
+        <p class="threshold-ref mt-2">Umbrales: LCP ≤2.5s | CLS ≤0.1 | TBT ≤200ms</p>
       </div>
     </div>
-    <div id="sectionRecs" class="hidden">
-      <div class="bg-white rounded-xl shadow p-8">
-        <div id="recsContent" class="prose max-w-none"><p class="text-gray-500">Cargando recomendaciones...</p></div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">LCP por Página (ms)</h3><canvas id="chartLCP"></canvas></div>
+      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">TBT por Página (ms)</h3><canvas id="chartTBT"></canvas></div>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">CLS por Página</h3><canvas id="chartCLS"></canvas></div>
+      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">Score por Página</h3><canvas id="chartScore"></canvas></div>
+    </div>
+    <div class="card overflow-hidden">
+      <div class="p-4 border-b border-gray-100"><h3 class="text-sm font-semibold" style="color:#00273d;">Resultados — Páginas Principales</h3></div>
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs" aria-label="Resultados de performance páginas principales">
+          <thead class="bg-gray-50"><tr>
+            <th class="text-left px-4 py-2 font-semibold text-gray-600">Página</th>
+            <th class="text-center px-3 py-2 font-semibold text-gray-600">Estrategia</th>
+            <th class="text-center px-3 py-2 font-semibold text-gray-600">Score</th>
+            <th class="text-center px-3 py-2 font-semibold text-gray-600">LCP</th>
+            <th class="text-center px-3 py-2 font-semibold text-gray-600">CLS</th>
+            <th class="text-center px-3 py-2 font-semibold text-gray-600">TBT</th>
+            <th class="text-center px-3 py-2 font-semibold text-gray-600">FCP</th>
+            <th class="text-center px-3 py-2 font-semibold text-gray-600">URL</th>
+          </tr></thead>
+          <tbody id="mainTable"></tbody>
+        </table>
       </div>
     </div>
-  </main>
-  <footer class="text-center py-6 text-gray-400 text-sm">Actualizado 2x/dia via GitHub Actions + PageSpeed Insights API</footer>
+  </section>
+
+  <!-- Tab: Detalle -->
+  <section id="tab-detalle" class="max-w-7xl mx-auto space-y-6 hidden" role="tabpanel">
+    <div class="card p-5">
+      <div class="flex items-center gap-3 mb-4">
+        <h3 class="text-sm font-semibold" style="color:#00273d;">Muestreo Aleatorio — Detalle de Inmuebles</h3>
+        <span class="badge badge-needs">Muestra representativa</span>
+      </div>
+      <p class="text-xs text-gray-500 mb-4">URLs de inmuebles seleccionados aleatoriamente para evaluar rendimiento de páginas de detalle.</p>
+      <div class="overflow-x-auto">
+        <table class="w-full text-xs" aria-label="Resultados de inmuebles muestreados">
+          <thead class="bg-gray-50"><tr>
+            <th class="text-left px-4 py-2 font-semibold text-gray-600">Inmueble</th>
+            <th class="text-center px-3 py-2 font-semibold text-gray-600">Estrategia</th>
+            <th class="text-center px-3 py-2 font-semibold text-gray-600">Score</th>
+            <th class="text-center px-3 py-2 font-semibold text-gray-600">LCP</th>
+            <th class="text-center px-3 py-2 font-semibold text-gray-600">CLS</th>
+            <th class="text-center px-3 py-2 font-semibold text-gray-600">TBT</th>
+            <th class="text-center px-3 py-2 font-semibold text-gray-600">FCP</th>
+            <th class="text-center px-3 py-2 font-semibold text-gray-600">URL</th>
+          </tr></thead>
+          <tbody id="sampleTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  <!-- Tab: Recomendaciones -->
+  <section id="tab-recomendaciones" class="max-w-7xl mx-auto hidden" role="tabpanel">
+    <div class="card p-6">
+      <h3 class="text-sm font-semibold mb-4" style="color:#00273d;">Recomendaciones Técnicas</h3>
+      <div id="recsContent" class="prose prose-sm max-w-none text-gray-700">
+        <p class="text-gray-400 italic">Cargando recomendaciones...</p>
+      </div>
+    </div>
+  </section>
+
   <script>
-  function showTab(tab) {
-    document.getElementById('sectionMetrics').classList.toggle('hidden', tab !== 'metrics');
-    document.getElementById('sectionRecs').classList.toggle('hidden', tab !== 'recs');
-    document.getElementById('tabMetrics').className = 'px-6 py-3 font-semibold border-b-2 ' + (tab === 'metrics' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500');
-    document.getElementById('tabRecs').className = 'px-6 py-3 font-semibold border-b-2 ' + (tab === 'recs' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500');
-  }
+  function scoreClass(s){return s>=90?'score-green':s>=50?'score-yellow':'score-red';}
+  function badgeClass(s){return s>=90?'badge-good':s>=50?'badge-needs':'badge-poor';}
+  function badgeText(s){return s>=90?'Bueno':s>=50?'Necesita mejora':'Pobre';}
+  function lcpB(ms){return ms<=2500?'badge-good':ms<=4000?'badge-needs':'badge-poor';}
+  function clsB(v){return v<=0.1?'badge-good':v<=0.25?'badge-needs':'badge-poor';}
+  function tbtB(ms){return ms<=200?'badge-good':ms<=600?'badge-needs':'badge-poor';}
+  function avg(a){return a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length):0;}
+  function avgF(a){return a.length?(a.reduce((x,y)=>x+y,0)/a.length).toFixed(3):'0';}
+  function bText(c){return c==='badge-good'?'Bueno':c==='badge-needs'?'Mejora':'Pobre';}
+  function mc(l,v,b){return'<div class="text-center"><p class="metric-label">'+l+'</p><p class="text-sm font-bold text-gray-800">'+v+'</p><span class="badge '+b+'">'+bText(b)+'</span></div>';}
 
-  var allData = [], charts = {};
-  function gc(s) { return s >= 90 ? 'metric-good' : s >= 50 ? 'metric-needs-improvement' : 'metric-poor'; }
-  function gb(s) { return s >= 90 ? 'bg-green-50 border-green-200' : s >= 50 ? 'bg-amber-50 border-amber-200' : 'bg-red-50 border-red-200'; }
+  document.querySelectorAll('.tab-btn').forEach(btn=>{btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-selected','false');});
+    btn.classList.add('active');btn.setAttribute('aria-selected','true');
+    const t=btn.dataset.tab;
+    document.getElementById('tab-resumen').classList.toggle('hidden',t!=='resumen');
+    document.getElementById('tab-detalle').classList.toggle('hidden',t!=='detalle');
+    document.getElementById('tab-recomendaciones').classList.toggle('hidden',t!=='recomendaciones');
+  });});
 
-  function renderCards() {
-    var l = allData[allData.length - 1];
-    if (!l || !l.results) return;
-    document.getElementById('scoreCards').innerHTML = l.results.filter(function(r) { return r.score !== null; }).map(function(r) {
-      return '<div class="border rounded-xl p-6 ' + gb(r.score) + '"><div class="flex justify-between"><div><p class="text-sm font-medium text-gray-600">' + r.page + '</p><p class="text-xs text-gray-400">' + r.strategy + '</p></div><span class="text-3xl font-bold ' + gc(r.score) + '">' + r.score + '</span></div><div class="mt-4 grid grid-cols-2 gap-2 text-xs"><div>LCP: <b>' + r.lcp + '</b></div><div>CLS: <b>' + r.cls + '</b></div><div>TBT: <b>' + r.tbt + '</b></div><div>FCP: <b>' + r.fcp + '</b></div></div></div>';
+  function renderTable(id,rows){
+    document.getElementById(id).innerHTML=rows.map(r=>{
+      const sc=scoreClass(r.score);
+      return'<tr class="border-b border-gray-50 hover:bg-gray-50">'
+        +'<td class="px-4 py-2 font-medium text-gray-800">'+r.page+'</td>'
+        +'<td class="text-center px-3 py-2"><span class="badge badge-needs">'+r.strategy+'</span></td>'
+        +'<td class="text-center px-3 py-2"><span class="inline-flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold '+sc+'">'+r.score+'</span></td>'
+        +'<td class="text-center px-3 py-2"><span class="badge '+lcpB(r.lcpMs)+'">'+r.lcp+'</span></td>'
+        +'<td class="text-center px-3 py-2"><span class="badge '+clsB(r.clsNum)+'">'+r.cls+'</span></td>'
+        +'<td class="text-center px-3 py-2"><span class="badge '+tbtB(r.tbtMs)+'">'+r.tbt+'</span></td>'
+        +'<td class="text-center px-3 py-2 text-gray-600">'+r.fcp+'</td>'
+        +'<td class="text-center px-3 py-2"><a href="'+r.url+'" target="_blank" rel="noopener" class="text-blue-500 hover:underline">Ver</a></td></tr>';
     }).join('');
   }
 
-  function renderTable() {
-    var l = allData[allData.length - 1];
-    if (!l || !l.results) return;
-    document.getElementById('resultsTable').innerHTML = l.results.filter(function(r) { return r.score !== null; }).map(function(r) {
-      return '<tr class="border-t"><td class="px-4 py-3">' + r.page + '</td><td class="px-4 py-3 text-center">' + r.strategy + '</td><td class="px-4 py-3 text-center ' + gc(r.score) + '"><b>' + r.score + '</b></td><td class="px-4 py-3 text-center">' + r.lcp + '</td><td class="px-4 py-3 text-center">' + r.cls + '</td><td class="px-4 py-3 text-center">' + r.tbt + '</td><td class="px-4 py-3 text-center">' + r.fcp + '</td></tr>';
-    }).join('');
+  function renderCharts(mp){
+    const pgs=[...new Set(mp.map(r=>r.page))];
+    const mob=mp.filter(r=>r.strategy==='mobile');
+    const dsk=mp.filter(r=>r.strategy==='desktop');
+    const mP=pgs.map(p=>mob.find(r=>r.page===p)||{});
+    const dP=pgs.map(p=>dsk.find(r=>r.page===p)||{});
+    const bo={responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}}},scales:{y:{beginAtZero:true}}};
+    const aLCP={g:{type:'line',yMin:2500,yMax:2500,borderColor:'#10b981',borderWidth:1.5,borderDash:[4,4],label:{content:'Bueno 2.5s',display:true,position:'start',font:{size:9}}},p:{type:'line',yMin:4000,yMax:4000,borderColor:'#ef4444',borderWidth:1.5,borderDash:[4,4],label:{content:'Pobre 4s',display:true,position:'start',font:{size:9}}}};
+    const aTBT={g:{type:'line',yMin:200,yMax:200,borderColor:'#10b981',borderWidth:1.5,borderDash:[4,4],label:{content:'Bueno 200ms',display:true,position:'start',font:{size:9}}},p:{type:'line',yMin:600,yMax:600,borderColor:'#ef4444',borderWidth:1.5,borderDash:[4,4],label:{content:'Pobre 600ms',display:true,position:'start',font:{size:9}}}};
+    const aCLS={g:{type:'line',yMin:0.1,yMax:0.1,borderColor:'#10b981',borderWidth:1.5,borderDash:[4,4],label:{content:'Bueno 0.1',display:true,position:'start',font:{size:9}}},p:{type:'line',yMin:0.25,yMax:0.25,borderColor:'#ef4444',borderWidth:1.5,borderDash:[4,4],label:{content:'Pobre 0.25',display:true,position:'start',font:{size:9}}}};
+    const aSc={g:{type:'line',yMin:90,yMax:90,borderColor:'#10b981',borderWidth:1.5,borderDash:[4,4],label:{content:'Bueno 90',display:true,position:'start',font:{size:9}}},p:{type:'line',yMin:50,yMax:50,borderColor:'#ef4444',borderWidth:1.5,borderDash:[4,4],label:{content:'Pobre 50',display:true,position:'start',font:{size:9}}}};
+    new Chart(document.getElementById('chartLCP'),{type:'bar',data:{labels:pgs,datasets:[{label:'Mobile',data:mP.map(r=>r.lcpMs||0),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(r=>r.lcpMs||0),backgroundColor:'#3e98cc'}]},options:{...bo,plugins:{...bo.plugins,annotation:{annotations:aLCP}}}});
+    new Chart(document.getElementById('chartTBT'),{type:'bar',data:{labels:pgs,datasets:[{label:'Mobile',data:mP.map(r=>r.tbtMs||0),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(r=>r.tbtMs||0),backgroundColor:'#3e98cc'}]},options:{...bo,plugins:{...bo.plugins,annotation:{annotations:aTBT}}}});
+    new Chart(document.getElementById('chartCLS'),{type:'bar',data:{labels:pgs,datasets:[{label:'Mobile',data:mP.map(r=>r.clsNum||0),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(r=>r.clsNum||0),backgroundColor:'#3e98cc'}]},options:{...bo,plugins:{...bo.plugins,annotation:{annotations:aCLS}}}});
+    new Chart(document.getElementById('chartScore'),{type:'bar',data:{labels:pgs,datasets:[{label:'Mobile',data:mP.map(r=>r.score||0),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(r=>r.score||0),backgroundColor:'#3e98cc'}]},options:{...bo,plugins:{...bo.plugins,annotation:{annotations:aSc}}}});
   }
 
-  function renderCharts() {
-    var labels = allData.map(function(d) { return d.date; });
-    var pages = ['Home', 'Arriendo', 'Venta'];
-    var colors = { Home: '#3e98cc', Arriendo: '#253150', Venta: '#bd0f14' };
-    var s = document.getElementById('strategyFilter').value === 'all' ? 'mobile' : document.getElementById('strategyFilter').value;
-    function ds(m) {
-      return pages.map(function(p) {
-        return { label: p, data: allData.map(function(d) { var r = (d.results || []).find(function(x) { return x.page === p && x.strategy === s; }); return r ? r[m] : null; }), borderColor: colors[p], tension: 0.3, fill: false };
-      });
-    }
-    if (charts.s) charts.s.destroy();
-    charts.s = new Chart(document.getElementById('scoreChart'), { type: 'line', data: { labels: labels, datasets: ds('score') }, options: { responsive: true, scales: { y: { min: 0, max: 100 } } } });
-    if (charts.l) charts.l.destroy();
-    charts.l = new Chart(document.getElementById('lcpChart'), { type: 'line', data: { labels: labels, datasets: ds('lcpMs') }, options: { responsive: true } });
-    if (charts.c) charts.c.destroy();
-    charts.c = new Chart(document.getElementById('clsChart'), { type: 'line', data: { labels: labels, datasets: ds('clsNum') }, options: { responsive: true } });
-    if (charts.t) charts.t.destroy();
-    charts.t = new Chart(document.getElementById('tbtChart'), { type: 'line', data: { labels: labels, datasets: ds('tbtMs') }, options: { responsive: true } });
+  async function loadDashboard(){
+    try{
+      const res=await fetch('data.json');const data=await res.json();
+      const latest=data[data.length-1];const results=latest.results||[];
+      document.getElementById('lastDate').textContent=latest.date+' '+latest.time+' ('+latest.session+')';
+      const mainP=results.filter(r=>!r.page.startsWith('Detalle:'));
+      const sampP=results.filter(r=>r.page.startsWith('Detalle:'));
+      const mob=mainP.filter(r=>r.strategy==='mobile');
+      const dsk=mainP.filter(r=>r.strategy==='desktop');
+      const gA=avg(results.map(r=>r.score));
+      const gE=document.getElementById('globalScore');gE.textContent=gA;gE.className='score-ring '+scoreClass(gA);
+      const mA=avg(mob.map(r=>r.score));const mE=document.getElementById('mobileAvgScore');mE.textContent=mA;mE.className='score-ring '+scoreClass(mA);
+      document.getElementById('mobileBadge').textContent=badgeText(mA);document.getElementById('mobileBadge').className='badge '+badgeClass(mA);
+      const mL=avg(mob.map(r=>r.lcpMs)),mC=avgF(mob.map(r=>r.clsNum)),mT=avg(mob.map(r=>r.tbtMs));
+      document.getElementById('mobileMetrics').innerHTML=mc('LCP',mL+' ms',lcpB(mL))+mc('CLS',mC,clsB(parseFloat(mC)))+mc('TBT',mT+' ms',tbtB(mT));
+      const dA=avg(dsk.map(r=>r.score));const dE=document.getElementById('desktopAvgScore');dE.textContent=dA;dE.className='score-ring '+scoreClass(dA);
+      document.getElementById('desktopBadge').textContent=badgeText(dA);document.getElementById('desktopBadge').className='badge '+badgeClass(dA);
+      const dL=avg(dsk.map(r=>r.lcpMs)),dC=avgF(dsk.map(r=>r.clsNum)),dT=avg(dsk.map(r=>r.tbtMs));
+      document.getElementById('desktopMetrics').innerHTML=mc('LCP',dL+' ms',lcpB(dL))+mc('CLS',dC,clsB(parseFloat(dC)))+mc('TBT',dT+' ms',tbtB(dT));
+      renderTable('mainTable',mainP);renderTable('sampleTable',sampP);renderCharts(mainP);
+    }catch(e){console.error('Error:',e);document.getElementById('globalScore').textContent='!';}
   }
-
-  function render() { renderCards(); renderTable(); renderCharts(); var l = allData[allData.length - 1]; if (l) document.getElementById('lastUpdate').textContent = 'Ultima: ' + l.date + ' ' + (l.session || ''); }
-
-  document.getElementById('strategyFilter').addEventListener('change', render);
-  document.getElementById('pageFilter').addEventListener('change', render);
-  fetch('data.json').then(function(r) { return r.json(); }).then(function(d) { allData = Array.isArray(d) ? d : [d]; render(); }).catch(function(e) { console.error(e); });
-
-  fetch('recommendations/2026-06-22.html')
-    .then(function(r) { if (r.ok) return r.text(); throw new Error('not found'); })
-    .then(function(html) { document.getElementById('recsContent').innerHTML = html; })
-    .catch(function() { document.getElementById('recsContent').innerHTML = '<p class="text-gray-500">No hay recomendaciones disponibles para hoy.</p>'; });
+  async function loadRecs(){
+    try{
+      const res=await fetch('data.json');const data=await res.json();const latest=data[data.length-1];
+      const r=await fetch('recommendations/'+latest.date+'.html');
+      document.getElementById('recsContent').innerHTML=r.ok?await r.text():'<p class="text-gray-400">No hay recomendaciones para esta fecha.</p>';
+    }catch(e){document.getElementById('recsContent').innerHTML='<p class="text-red-400">Error cargando recomendaciones.</p>';}
+  }
+  loadDashboard();loadRecs();
   </script>
 </body>
 </html>
