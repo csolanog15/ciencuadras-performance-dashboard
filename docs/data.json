@@ -1,0 +1,15 @@
+[
+  {
+    "date": "2026-06-22",
+    "time": "11:26",
+    "session": "morning",
+    "results": [
+      {"url": "https://www.ciencuadras.com/", "page": "Home", "strategy": "mobile", "score": 58, "lcp": "9.0 s", "lcpMs": 9000, "cls": "0.004", "clsNum": 0.004, "tbt": "140 ms", "tbtMs": 140, "fcp": "6.5 s", "fcpMs": 6500},
+      {"url": "https://www.ciencuadras.com/", "page": "Home", "strategy": "desktop", "score": 86, "lcp": "1.0 s", "lcpMs": 1000, "cls": "0.011", "clsNum": 0.011, "tbt": "270 ms", "tbtMs": 270, "fcp": "0.8 s", "fcpMs": 800},
+      {"url": "https://www.ciencuadras.com/arriendo", "page": "Arriendo", "strategy": "mobile", "score": 48, "lcp": "8.4 s", "lcpMs": 8400, "cls": "0.107", "clsNum": 0.107, "tbt": "800 ms", "tbtMs": 800, "fcp": "1.7 s", "fcpMs": 1700},
+      {"url": "https://www.ciencuadras.com/arriendo", "page": "Arriendo", "strategy": "desktop", "score": 75, "lcp": "0.7 s", "lcpMs": 700, "cls": "0.027", "clsNum": 0.027, "tbt": "550 ms", "tbtMs": 550, "fcp": "0.4 s", "fcpMs": 400},
+      {"url": "https://www.ciencuadras.com/venta", "page": "Venta", "strategy": "mobile", "score": 86, "lcp": "2.3 s", "lcpMs": 2300, "cls": "0.106", "clsNum": 0.106, "tbt": "280 ms", "tbtMs": 280, "fcp": "1.1 s", "fcpMs": 1100},
+      {"url": "https://www.ciencuadras.com/venta", "page": "Venta", "strategy": "desktop", "score": 85, "lcp": "0.5 s", "lcpMs": 500, "cls": "0.027", "clsNum": 0.027, "tbt": "320 ms", "tbtMs": 320, "fcp": "0.3 s", "fcpMs": 300}
+    ]
+  }
+]
