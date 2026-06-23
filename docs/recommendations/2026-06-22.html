@@ -1,2 +1,131 @@
-<h1>Recomendaciones Tecnicas del Dia - 2026-06-22</h1><h2>Fuente: Analisis de codigo <code>segurosbolivar/ciencuadras-portal-frontend</code></h2><p><strong>Repo:</strong> <code>segurosbolivar/ciencuadras-portal-frontend</code> (branch: master)<br><strong>Framework:</strong> Angular 14.3.0 con Scully (pre-rendering)<br><strong>Carrusel:</strong> <code>ngx-owl-carousel-o</code> v14.0.2 y <code>ngx-splide</code> v0.0.11<br><strong>SSR:</strong> <code>@nguniversal/express-engine</code> v14.2.3 (Angular Universal instalado)<br><strong>RUM:</strong> <code>@datadog/browser-rum</code> v4.13.0<br><strong>Maps:</strong> <code>@angular/google-maps</code> v14.2.7 + <code>@googlemaps/js-api-loader</code> v1.13.2<br><strong>State:</strong> <code>@ngrx/store</code> v14.0.0<br><strong>Image Lazy:</strong> <code>ng-lazyload-image</code> v9.0.0</p><hr><h2>Inmuebles Muestreados (Baseline 2026-06-22)</h2><table><thead><tr><th>#</th><th>Inmueble</th><th>Ciudad</th><th>Score Mobile</th><th>LCP Mobile</th></tr></thead><tbody><tr><td>1</td><td>Apto arriendo Riomar</td><td>Barranquilla</td><td>48</td><td>13.6s</td></tr><tr><td>2</td><td>Apto venta Chapinero</td><td>Bogota</td><td>42</td><td>13.5s</td></tr><tr><td>3</td><td>Casa arriendo Envigado</td><td>Medellin</td><td>38</td><td>15.3s</td></tr></tbody></table><p><strong>URLs analizadas:</strong></p><ul><li><a href="https://www.ciencuadras.com/inmueble/apartamento-en-arriendo-en-riomar-barranquilla-3639873">Apto Arriendo Riomar, Barranquilla</a></li><li><a href="https://www.ciencuadras.com/inmueble/apartamento-en-venta-en-chapinero-bogota-5841092">Apto Venta Chapinero, Bogota</a></li><li><a href="https://www.ciencuadras.com/inmueble/casa-en-arriendo-en-envigado-medellin-4721856">Casa Arriendo Envigado, Medellin</a></li></ul><hr><h2>P0 - LCP Mobile en Detalles (13-15s &rarr; target 2.5s)</h2><h3>Causa raiz identificada en codigo</h3><p>El carrusel de imagenes usa <code>ngx-owl-carousel-o</code> (v14.0.2) que <strong>NO soporta native lazy loading</strong> ni fetchpriority. Owl Carousel carga TODAS las imagenes del slide al inicializar. Existe <code>ng-lazyload-image</code> (v9.0.0) pero no se aplica al carrusel de detalle.</p><h3>Acciones especificas</h3><ol><li><strong>Migrar de <code>ngx-owl-carousel-o</code> a <code>ngx-splide</code></strong> (ya instalado v0.0.11). Splide soporta lazy loading nativo.<br>- Buscar componente con <code>&lt;owl-carousel-o&gt;</code> en detalle de inmueble<br>- Reemplazar por <code>&lt;splide&gt;</code> con config <code>lazyLoad: 'nearby'</code></li><li><strong>Primera imagen con eager + fetchpriority</strong><br><pre><code>&lt;img [src]="images[0].url" loading="eager" fetchpriority="high" width="800" height="600"&gt;
-&lt;img *ngFor="let img of images.slice(1)" [lazyImage]="img.url" loading="lazy"&gt;</code></pre></li><li><strong>Pre-render con Scully</strong> incluyendo <code>&lt;link rel="preload"&gt;</code> para imagen principal</li><li><strong>WebP via CloudFront</strong> - Repo <code>ciencuadras-imagehandler-lambda</code> maneja imagenes. Agregar content negotiation.</li></ol><p><strong>Impacto:</strong> LCP -8s (de 14s a ~6s).</p><hr><h2>P1 - TBT: JavaScript Bloqueante (280-2210ms &rarr; target 200ms)</h2><h3>Causa raiz identificada en codigo</h3><p>Dependencias pesadas en bundle principal (package.json):</p><ul><li><code>aws-sdk</code> v2.804.0 = <strong>250KB+</strong> (tienen v3 client instalado pero no migrado)</li><li><code>firebase</code> v9.1.0 = <strong>100KB+</strong> sin tree-shaking modular</li><li><code>@angular/google-maps</code> + <code>@googlemaps/js-api-loader</code> = <strong>200KB</strong> cargado sincrono</li><li><code>@ngrx/store-devtools</code> cargado en produccion</li><li><code>@datadog/browser-rum</code> inicializado en app.module.ts (bloquea render)</li></ul><h3>Acciones especificas</h3><ol><li><strong>Eliminar <code>aws-sdk</code> v2</strong> - Ya tienen <code>@aws-sdk/client-cognito-identity</code> v3. Ahorro: ~250KB.</li><li><strong>Lazy load Google Maps</strong> - Mover a feature module con loadChildren. Ahorro: ~200KB.</li><li><strong>Remover store-devtools en produccion:</strong><br><pre><code>...(environment.production ? [] : [StoreDevtoolsModule.instrument()])</code></pre></li><li><strong>Defer Datadog RUM:</strong><br><pre><code>setTimeout(() =&gt; datadogRum.init({...}), 3000);</code></pre></li><li><strong>Defer GTM</strong> (<code>angular-google-tag-manager</code> v1.6.0) - Cargar post-load.</li></ol><p><strong>Impacto:</strong> TBT -60% (de 800ms a ~320ms).</p><hr><h2>P2 - CLS Mobile &gt; 0.1</h2><h3>Causa raiz</h3><ul><li><code>ngx-owl-carousel-o</code> no reserva espacio antes de cargar imagenes</li><li><code>cc-components-lib</code> (v0.0.611) no define aspect-ratios en cards</li><li>Web fonts sin <code>font-display: swap</code></li></ul><h3>Acciones</h3><ol><li>Agregar <code>width</code>/<code>height</code> a todos los <code>&lt;img&gt;</code> + <code>aspect-ratio: 4/3</code></li><li>CSS: <code>.property-gallery { min-height: 400px; aspect-ratio: 16/9; }</code></li><li><code>font-display: swap</code> en styles.scss</li><li>Skeleton screens para cards de resultados</li></ol><p><strong>Impacto:</strong> CLS de 0.107 a 0.03.</p><hr><h2>P3 - LCP Home Mobile (9s &rarr; target 2.5s)</h2><h3>Causa raiz</h3><p>Scully pre-renderiza pero FCP de 6.5s indica hidratacion lenta. App.module.ts carga todo eagerly.</p><h3>Acciones</h3><ol><li>Verificar pre-render de ruta <code>/</code> en Scully</li><li><code>&lt;link rel="preload" as="image"&gt;</code> para hero</li><li><code>&lt;link rel="preconnect" href="https://multimedia.dvisor.io"&gt;</code></li><li>Verificar <code>"optimization": true</code> en angular.json produccion</li></ol><p><strong>Impacto:</strong> LCP -5s (de 9s a ~4s).</p><hr><h2>Resumen de impacto total estimado</h2><table><thead><tr><th>Metrica</th><th>Antes (Mobile)</th><th>Despues</th><th>Mejora</th></tr></thead><tbody><tr><td>Score Home</td><td>58</td><td>~75</td><td>+17pts</td></tr><tr><td>Score Arriendo</td><td>48</td><td>~65</td><td>+17pts</td></tr><tr><td>Score Detalle</td><td>38-48</td><td>~60-70</td><td>+20pts</td></tr><tr><td>LCP Detalle</td><td>13-15s</td><td>4-6s</td><td>-9s</td></tr><tr><td>TBT Promedio</td><td>700ms</td><td>280ms</td><td>-60%</td></tr><tr><td>CLS</td><td>0.107</td><td>0.03</td><td>-72%</td></tr></tbody></table><hr><p>Proxima medicion: manana 8:00 AM COT (automatica via GitHub Actions).</p>
+<div style="font-family: Montserrat, sans-serif;">
+
+<h1 style="color:#00273d; margin-bottom: 0.25rem;">Plan de Mejora — Core Web Vitals</h1>
+<p style="color:#6b7280; font-size:0.85rem; margin-bottom: 2rem;">Fecha: 2026-06-22 | Fuente: <code>segurosbolivar/ciencuadras-portal-frontend</code> (Angular 14.3 + Scully)</p>
+
+<!-- RESUMEN EJECUTIVO -->
+<div style="background:#fef3c7; border-left: 4px solid #f59e0b; border-radius:8px; padding:1rem 1.5rem; margin-bottom:2rem;">
+  <p style="font-weight:700; color:#92400e; margin:0 0 0.5rem;">Resumen: 4 acciones priorizadas para alcanzar los objetivos</p>
+  <table style="width:100%; font-size:0.8rem; border-collapse:collapse;">
+    <tr style="border-bottom:1px solid #fde68a;">
+      <td style="padding:4px 8px; font-weight:600;">P0</td>
+      <td style="padding:4px 8px;">Optimizar imagenes del carrusel</td>
+      <td style="padding:4px 8px; color:#991b1b;">LCP 14s → 2.5s</td>
+      <td style="padding:4px 8px;">Impacto: Score +25pts</td>
+    </tr>
+    <tr style="border-bottom:1px solid #fde68a;">
+      <td style="padding:4px 8px; font-weight:600;">P1</td>
+      <td style="padding:4px 8px;">Reducir JavaScript bloqueante</td>
+      <td style="padding:4px 8px; color:#991b1b;">TBT 720ms → 200ms</td>
+      <td style="padding:4px 8px;">Impacto: Score +15pts</td>
+    </tr>
+    <tr style="border-bottom:1px solid #fde68a;">
+      <td style="padding:4px 8px; font-weight:600;">P2</td>
+      <td style="padding:4px 8px;">Estabilizar layout (CLS)</td>
+      <td style="padding:4px 8px; color:#991b1b;">CLS 0.106 → 0.1</td>
+      <td style="padding:4px 8px;">Impacto: Score +5pts</td>
+    </tr>
+    <tr>
+      <td style="padding:4px 8px; font-weight:600;">P3</td>
+      <td style="padding:4px 8px;">Mejorar carga inicial del Home</td>
+      <td style="padding:4px 8px; color:#991b1b;">LCP 9s → 4s</td>
+      <td style="padding:4px 8px;">Impacto: Score +15pts</td>
+    </tr>
+  </table>
+</div>
+
+<!-- P0 -->
+<div style="background:#fff; border:1px solid #e5e7eb; border-radius:8px; padding:1.5rem; margin-bottom:1.5rem;">
+  <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+    <span style="background:#fee2e2; color:#991b1b; font-weight:700; padding:2px 10px; border-radius:9999px; font-size:0.75rem;">P0 — Critico</span>
+    <span style="font-weight:700; color:#00273d;">Optimizar imagenes del carrusel de inmuebles</span>
+  </div>
+  <table style="width:100%; font-size:0.8rem; margin-bottom:1rem; border-collapse:collapse;">
+    <tr><td style="padding:4px 0; color:#6b7280; width:120px;">Metrica:</td><td><strong>LCP Mobile</strong></td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Actual:</td><td style="color:#991b1b; font-weight:600;">13.6s (promedio detalles)</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Objetivo:</td><td style="color:#065f46; font-weight:600;">≤ 2.5s</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Causa:</td><td><code>ngx-owl-carousel-o</code> carga TODAS las fotos al iniciar (no soporta lazy loading)</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Donde:</td><td>Componente de galeria en pagina de detalle de inmueble</td></tr>
+  </table>
+  <p style="font-weight:600; font-size:0.85rem; color:#00273d; margin-bottom:0.5rem;">Que hacer:</p>
+  <ol style="font-size:0.8rem; padding-left:1.25rem; margin:0;">
+    <li style="margin-bottom:0.4rem;"><strong>Migrar el carrusel de <code>ngx-owl-carousel-o</code> a <code>ngx-splide</code></strong> (ya instalado en el proyecto). Splide soporta <code>lazyLoad: 'nearby'</code>.</li>
+    <li style="margin-bottom:0.4rem;"><strong>Primera imagen:</strong> <code>loading="eager" fetchpriority="high"</code>. Resto: <code>loading="lazy"</code>.</li>
+    <li style="margin-bottom:0.4rem;"><strong>Servir WebP</strong> via CloudFront (repo <code>ciencuadras-imagehandler-lambda</code>).</li>
+    <li style="margin-bottom:0.4rem;"><strong>Agregar</strong> <code>width</code> y <code>height</code> a todos los <code>&lt;img&gt;</code> del carrusel.</li>
+  </ol>
+</div>
+
+<!-- P1 -->
+<div style="background:#fff; border:1px solid #e5e7eb; border-radius:8px; padding:1.5rem; margin-bottom:1.5rem;">
+  <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+    <span style="background:#fef3c7; color:#92400e; font-weight:700; padding:2px 10px; border-radius:9999px; font-size:0.75rem;">P1 — Alto</span>
+    <span style="font-weight:700; color:#00273d;">Reducir JavaScript bloqueante (bundle principal)</span>
+  </div>
+  <table style="width:100%; font-size:0.8rem; margin-bottom:1rem; border-collapse:collapse;">
+    <tr><td style="padding:4px 0; color:#6b7280; width:120px;">Metrica:</td><td><strong>TBT (Total Blocking Time)</strong></td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Actual:</td><td style="color:#991b1b; font-weight:600;">720ms promedio (hasta 2.2s en desktop detalle)</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Objetivo:</td><td style="color:#065f46; font-weight:600;">≤ 200ms</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Causa:</td><td>Dependencias pesadas cargadas en el bundle principal sin lazy loading</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Donde:</td><td><code>package.json</code> y <code>app.module.ts</code></td></tr>
+  </table>
+  <p style="font-weight:600; font-size:0.85rem; color:#00273d; margin-bottom:0.5rem;">Que hacer:</p>
+  <ol style="font-size:0.8rem; padding-left:1.25rem; margin:0;">
+    <li style="margin-bottom:0.4rem;"><strong>Eliminar <code>aws-sdk</code> v2</strong> del package.json — Ya tienen <code>@aws-sdk/client-cognito-identity</code> v3. Ahorro: ~250KB.</li>
+    <li style="margin-bottom:0.4rem;"><strong>Lazy load Google Maps</strong> — Mover a un modulo con <code>loadChildren</code>. Ahorro: ~200KB.</li>
+    <li style="margin-bottom:0.4rem;"><strong>Quitar <code>@ngrx/store-devtools</code> en produccion</strong> — Solo cargar en dev.</li>
+    <li style="margin-bottom:0.4rem;"><strong>Diferir Datadog RUM</strong> — Inicializar con <code>setTimeout(3000)</code> en vez de al arrancar.</li>
+    <li style="margin-bottom:0.4rem;"><strong>Diferir GTM</strong> — Cargar despues del <code>onLoad</code>.</li>
+  </ol>
+</div>
+
+<!-- P2 -->
+<div style="background:#fff; border:1px solid #e5e7eb; border-radius:8px; padding:1.5rem; margin-bottom:1.5rem;">
+  <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+    <span style="background:#fef3c7; color:#92400e; font-weight:700; padding:2px 10px; border-radius:9999px; font-size:0.75rem;">P2 — Medio</span>
+    <span style="font-weight:700; color:#00273d;">Estabilizar layout (eliminar saltos visuales)</span>
+  </div>
+  <table style="width:100%; font-size:0.8rem; margin-bottom:1rem; border-collapse:collapse;">
+    <tr><td style="padding:4px 0; color:#6b7280; width:120px;">Metrica:</td><td><strong>CLS (Cumulative Layout Shift)</strong></td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Actual:</td><td style="color:#991b1b; font-weight:600;">0.106 mobile (supera umbral 0.1)</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Objetivo:</td><td style="color:#065f46; font-weight:600;">≤ 0.1</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Causa:</td><td>Imagenes sin dimensiones + web fonts sin fallback + carrusel sin espacio reservado</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Donde:</td><td>Templates HTML del carrusel, cards de resultados, y <code>styles.scss</code></td></tr>
+  </table>
+  <p style="font-weight:600; font-size:0.85rem; color:#00273d; margin-bottom:0.5rem;">Que hacer:</p>
+  <ol style="font-size:0.8rem; padding-left:1.25rem; margin:0;">
+    <li style="margin-bottom:0.4rem;"><strong>Agregar <code>width</code> y <code>height</code></strong> a TODAS las <code>&lt;img&gt;</code> + CSS <code>aspect-ratio: 4/3</code>.</li>
+    <li style="margin-bottom:0.4rem;"><strong>Reservar espacio del carrusel:</strong> <code>.property-gallery { min-height: 400px; }</code></li>
+    <li style="margin-bottom:0.4rem;"><strong><code>font-display: swap</code></strong> en la carga de tipografias.</li>
+    <li style="margin-bottom:0.4rem;"><strong>Skeleton screens</strong> para las cards de resultados mientras cargan datos.</li>
+  </ol>
+</div>
+
+<!-- P3 -->
+<div style="background:#fff; border:1px solid #e5e7eb; border-radius:8px; padding:1.5rem; margin-bottom:1.5rem;">
+  <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1rem;">
+    <span style="background:#dbeafe; color:#1e40af; font-weight:700; padding:2px 10px; border-radius:9999px; font-size:0.75rem;">P3 — Mejora</span>
+    <span style="font-weight:700; color:#00273d;">Mejorar carga inicial del Home</span>
+  </div>
+  <table style="width:100%; font-size:0.8rem; margin-bottom:1rem; border-collapse:collapse;">
+    <tr><td style="padding:4px 0; color:#6b7280; width:120px;">Metrica:</td><td><strong>LCP Home Mobile</strong></td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Actual:</td><td style="color:#991b1b; font-weight:600;">9.1s</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Objetivo:</td><td style="color:#065f46; font-weight:600;">≤ 2.5s</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Causa:</td><td>Hero image pesada + hidratacion lenta de Angular (app.module carga todo eagerly)</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Donde:</td><td>Componente Home, Scully config, <code>index.html</code></td></tr>
+  </table>
+  <p style="font-weight:600; font-size:0.85rem; color:#00273d; margin-bottom:0.5rem;">Que hacer:</p>
+  <ol style="font-size:0.8rem; padding-left:1.25rem; margin:0;">
+    <li style="margin-bottom:0.4rem;"><strong>Optimizar hero image:</strong> WebP, <code>srcset</code> responsive, <code>fetchpriority="high"</code>.</li>
+    <li style="margin-bottom:0.4rem;"><strong>Preconnect:</strong> <code>&lt;link rel="preconnect" href="https://multimedia.dvisor.io"&gt;</code></li>
+    <li style="margin-bottom:0.4rem;"><strong>Verificar Scully pre-render</strong> de la ruta <code>/</code> con imagen resuelta en HTML.</li>
+    <li style="margin-bottom:0.4rem;"><strong>Critical CSS inline</strong> — verificar <code>"optimization": true</code> en angular.json.</li>
+  </ol>
+</div>
+
+<!-- PROXIMA MEDICION -->
+<div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:1rem 1.5rem; margin-top:2rem;">
+  <p style="font-weight:600; color:#065f46; margin:0;">Proxima medicion automatica: manana 8:00 AM COT via GitHub Actions</p>
+</div>
+
+</div>
