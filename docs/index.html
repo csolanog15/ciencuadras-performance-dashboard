@@ -182,6 +182,15 @@
         </table>
       </div>
     </div>
+    <!-- Graficas de Inmuebles -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">Score por Inmueble</h3><canvas id="chartSampleScore"></canvas></div>
+      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">LCP por Inmueble (ms)</h3><canvas id="chartSampleLCP"></canvas></div>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">TBT por Inmueble (ms)</h3><canvas id="chartSampleTBT"></canvas></div>
+      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">CLS por Inmueble</h3><canvas id="chartSampleCLS"></canvas></div>
+    </div>
   </section>
   <!-- Tab: Recomendaciones -->
   <section id="tab-recomendaciones" class="max-w-7xl mx-auto hidden" role="tabpanel">
@@ -435,6 +444,7 @@
       if (targetsData && targetsData.kpis) {
         renderKPIs(targetsData.kpis);
       }
+      if (sampP.length > 0) { renderSampleCharts(sampP); }
     }).catch(function(e) {
       console.error('Error:', e);
       document.getElementById('globalScore').textContent = '!';
@@ -444,14 +454,37 @@
   function loadRecs() {
     fetch('data.json').then(function(res){return res.json();}).then(function(data) {
       var latest = data[data.length - 1];
-      return fetch('recommendations/' + latest.date + '.html');
-    }).then(function(r) {
-      if (r.ok) return r.text();
-      return '<p class="text-gray-400">No hay recomendaciones para esta fecha.</p>';
-    }).then(function(html) {
+      var results = latest.results || [];
+      var sampP = results.filter(function(r){return r.page.startsWith('Detalle:');});
+      var html = '<h4 class="font-semibold text-gray-800 mb-3">Recomendaciones — ' + latest.date + '</h4>';
+      html += '<div class="space-y-4">';
+      var mobSamp = sampP.filter(function(r){return r.strategy==='mobile';});
+      var dskSamp = sampP.filter(function(r){return r.strategy==='desktop';});
+      var avgLcpMob = mobSamp.length ? Math.round(mobSamp.reduce(function(a,r){return a+r.lcpMs;},0)/mobSamp.length) : 0;
+      var avgTbtMob = mobSamp.length ? Math.round(mobSamp.reduce(function(a,r){return a+r.tbtMs;},0)/mobSamp.length) : 0;
+      var avgTbtDsk = dskSamp.length ? Math.round(dskSamp.reduce(function(a,r){return a+r.tbtMs;},0)/dskSamp.length) : 0;
+      var avgScoreMob = mobSamp.length ? Math.round(mobSamp.reduce(function(a,r){return a+r.score;},0)/mobSamp.length) : 0;
+      if (avgLcpMob > 2500) {
+        html += '<div class="p-3 bg-red-50 border-l-4 border-red-400 rounded"><p class="font-semibold text-red-800">LCP Mobile: ' + avgLcpMob + 'ms (objetivo: 2500ms)</p><ul class="text-xs text-gray-700 mt-1 list-disc ml-4"><li>Preload imagen hero, formato WebP/AVIF</li><li>SSR o pre-rendering para above-the-fold</li><li>Reducir CSS critico bloqueante</li><li>CDN con edge caching para galeria</li></ul></div>';
+      }
+      if (avgTbtMob > 200) {
+        html += '<div class="p-3 bg-amber-50 border-l-4 border-amber-400 rounded"><p class="font-semibold text-amber-800">TBT Mobile: ' + avgTbtMob + 'ms (objetivo: 200ms)</p><ul class="text-xs text-gray-700 mt-1 list-disc ml-4"><li>Code-splitting: solo JS necesario above-the-fold</li><li>Diferir third-party scripts (analytics, chat)</li><li>Eliminar imports Angular no usados</li><li>Web workers para procesamiento pesado</li></ul></div>';
+      }
+      if (avgTbtDsk > 200) {
+        html += '<div class="p-3 bg-amber-50 border-l-4 border-amber-400 rounded"><p class="font-semibold text-amber-800">TBT Desktop: ' + avgTbtDsk + 'ms (objetivo: 200ms)</p><ul class="text-xs text-gray-700 mt-1 list-disc ml-4"><li>Auditar third-party con DevTools Performance</li><li>Lazy-load mapa e inmuebles similares</li><li>Tree-shaking agresivo en build de produccion</li></ul></div>';
+      }
+      if (avgScoreMob < 80) {
+        html += '<div class="p-3 bg-blue-50 border-l-4 border-blue-400 rounded"><p class="font-semibold text-blue-800">Score mobile: ' + avgScoreMob + ' (objetivo: 80+)</p><ul class="text-xs text-gray-700 mt-1 list-disc ml-4"><li>Priorizar LCP y TBT — mayores detractores</li><li>CLS OK — no requiere accion</li><li>Pre-carga para detalles frecuentes</li></ul></div>';
+      }
+      var mainMob = results.filter(function(r){return !r.page.startsWith('Detalle:')&&r.strategy==='mobile';});
+      var worstMain = mainMob.sort(function(a,b){return a.score-b.score;})[0];
+      if (worstMain && worstMain.score < 70) {
+        html += '<div class="p-3 bg-purple-50 border-l-4 border-purple-400 rounded"><p class="font-semibold text-purple-800">Pagina critica: ' + worstMain.page + ' (score ' + worstMain.score + ')</p><ul class="text-xs text-gray-700 mt-1 list-disc ml-4"><li>LCP: ' + worstMain.lcp + '</li><li>TBT: ' + worstMain.tbt + '</li></ul></div>';
+      }
+      html += '</div>';
       document.getElementById('recsContent').innerHTML = html;
     }).catch(function(e) {
-      document.getElementById('recsContent').innerHTML = '<p class="text-red-400">Error cargando recomendaciones.</p>';
+      document.getElementById('recsContent').innerHTML = '<p class="text-red-400">Error: ' + e.message + '</p>';
     });
   }
 
@@ -461,6 +494,23 @@
     loadRecs();
     loadTrends();
   });
+
+  function renderSampleCharts(sp) {
+    var pgsSet = {};
+    var pgs = [];
+    for (var i = 0; i < sp.length; i++) {
+      if (!pgsSet[sp[i].page]) { pgsSet[sp[i].page] = true; pgs.push(sp[i].page); }
+    }
+    var mob = sp.filter(function(r){return r.strategy==='mobile';});
+    var dsk = sp.filter(function(r){return r.strategy==='desktop';});
+    var mP = pgs.map(function(p){return mob.find(function(r){return r.page===p;})||{};});
+    var dP = pgs.map(function(p){return dsk.find(function(r){return r.page===p;})||{};});
+    var labels = pgs.map(function(p){return p.replace('Detalle: ','');});
+    new Chart(document.getElementById('chartSampleScore'),{type:'bar',data:{labels:labels,datasets:[{label:'Mobile',data:mP.map(function(r){return r.score||0;}),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(function(r){return r.score||0;}),backgroundColor:'#3e98cc'}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}},annotation:{annotations:getAnnotationLines('score')}},scales:{y:{min:0,max:100}}}});
+    new Chart(document.getElementById('chartSampleLCP'),{type:'bar',data:{labels:labels,datasets:[{label:'Mobile',data:mP.map(function(r){return r.lcpMs||0;}),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(function(r){return r.lcpMs||0;}),backgroundColor:'#3e98cc'}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}},annotation:{annotations:getAnnotationLines('lcp')}},scales:{y:{beginAtZero:true}}}});
+    new Chart(document.getElementById('chartSampleTBT'),{type:'bar',data:{labels:labels,datasets:[{label:'Mobile',data:mP.map(function(r){return r.tbtMs||0;}),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(function(r){return r.tbtMs||0;}),backgroundColor:'#3e98cc'}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}},annotation:{annotations:getAnnotationLines('tbt')}},scales:{y:{beginAtZero:true}}}});
+    new Chart(document.getElementById('chartSampleCLS'),{type:'bar',data:{labels:labels,datasets:[{label:'Mobile',data:mP.map(function(r){return r.clsNum||0;}),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(function(r){return r.clsNum||0;}),backgroundColor:'#3e98cc'}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}},annotation:{annotations:getAnnotationLines('cls')}},scales:{y:{beginAtZero:true}}}});
+  }
 
   function loadTrends() {
     fetch('data.json').then(function(res){return res.json();}).then(function(data) {
