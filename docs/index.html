@@ -92,6 +92,8 @@
         <p class="threshold-ref mt-2">Umbrales: LCP &le;2.5s | CLS &le;0.1 | TBT &le;200ms</p>
       </div>
     </div>
+    <!-- Graficas HOY -->
+    <div class="card p-4 mb-2"><h3 class="text-sm font-semibold" style="color:#00273d;">Resultados de Hoy</h3><p class="text-xs text-gray-400" id="todayDateLabel">—</p></div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">LCP por Pagina (ms)</h3><canvas id="chartLCP"></canvas></div>
       <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">TBT por Pagina (ms)</h3><canvas id="chartTBT"></canvas></div>
@@ -99,6 +101,16 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">CLS por Pagina</h3><canvas id="chartCLS"></canvas></div>
       <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">Score por Pagina</h3><canvas id="chartScore"></canvas></div>
+    </div>
+    <!-- Tendencia Diaria -->
+    <div class="card p-4 mt-4 mb-2"><h3 class="text-sm font-semibold" style="color:#00273d;">Tendencia Diaria — Comparativa</h3><p class="text-xs text-gray-400">Evolución entre mediciones</p></div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">Score Mobile — Tendencia</h3><canvas id="trendScoreMobile"></canvas></div>
+      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">Score Desktop — Tendencia</h3><canvas id="trendScoreDesktop"></canvas></div>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">LCP Mobile — Tendencia (ms)</h3><canvas id="trendLCPMobile"></canvas></div>
+      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">TBT Mobile — Tendencia (ms)</h3><canvas id="trendTBTMobile"></canvas></div>
     </div>
     <div class="card overflow-hidden">
       <div class="p-4 border-b border-gray-100"><h3 class="text-sm font-semibold" style="color:#00273d;">Resultados — Paginas Principales</h3></div>
@@ -447,7 +459,47 @@
   loadTargets().then(function() {
     loadDashboard();
     loadRecs();
+    loadTrends();
   });
+
+  function loadTrends() {
+    fetch('data.json').then(function(res){return res.json();}).then(function(data) {
+      if (data.length < 2) return;
+      var dates = data.map(function(d){return d.date;});
+      var pages = ['Home','Arriendo','Venta','Detalle: Inmueble Arriendo'];
+      var colors = ['#ef4444','#f59e0b','#3e98cc','#8b5cf6'];
+      var smDatasets = pages.map(function(pg,i){
+        return {label:pg,data:data.map(function(d){
+          var r=d.results.find(function(x){return x.page===pg&&x.strategy==='mobile';});
+          return r?r.score:null;
+        }),borderColor:colors[i],backgroundColor:colors[i]+'33',tension:0.3,fill:false};
+      });
+      new Chart(document.getElementById('trendScoreMobile'),{type:'line',data:{labels:dates,datasets:smDatasets},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}},annotation:{annotations:getAnnotationLines('score')}},scales:{y:{min:0,max:100}}}});
+      var sdDatasets = pages.map(function(pg,i){
+        return {label:pg,data:data.map(function(d){
+          var r=d.results.find(function(x){return x.page===pg&&x.strategy==='desktop';});
+          return r?r.score:null;
+        }),borderColor:colors[i],backgroundColor:colors[i]+'33',tension:0.3,fill:false};
+      });
+      new Chart(document.getElementById('trendScoreDesktop'),{type:'line',data:{labels:dates,datasets:sdDatasets},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}},annotation:{annotations:getAnnotationLines('score')}},scales:{y:{min:0,max:100}}}});
+      var lmDatasets = pages.map(function(pg,i){
+        return {label:pg,data:data.map(function(d){
+          var r=d.results.find(function(x){return x.page===pg&&x.strategy==='mobile';});
+          return r?r.lcpMs:null;
+        }),borderColor:colors[i],backgroundColor:colors[i]+'33',tension:0.3,fill:false};
+      });
+      new Chart(document.getElementById('trendLCPMobile'),{type:'line',data:{labels:dates,datasets:lmDatasets},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}},annotation:{annotations:getAnnotationLines('lcp')}},scales:{y:{beginAtZero:true}}}});
+      var tmDatasets = pages.map(function(pg,i){
+        return {label:pg,data:data.map(function(d){
+          var r=d.results.find(function(x){return x.page===pg&&x.strategy==='mobile';});
+          return r?r.tbtMs:null;
+        }),borderColor:colors[i],backgroundColor:colors[i]+'33',tension:0.3,fill:false};
+      });
+      new Chart(document.getElementById('trendTBTMobile'),{type:'line',data:{labels:dates,datasets:tmDatasets},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}},annotation:{annotations:getAnnotationLines('tbt')}},scales:{y:{beginAtZero:true}}}});
+      var el = document.getElementById('todayDateLabel');
+      if (el) el.textContent = data[data.length-1].date + ' ' + data[data.length-1].time;
+    }).catch(function(e){console.error('Trends error:',e);});
+  }
   </script>
 </body>
 </html>
