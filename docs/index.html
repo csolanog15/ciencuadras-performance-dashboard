@@ -122,6 +122,32 @@
 
   <!-- Tab: Detalle -->
   <section id="tab-detalle" class="max-w-7xl mx-auto space-y-6 hidden" role="tabpanel">
+    <!-- Resumen Promedios Inmuebles -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="card p-5">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-xs font-semibold uppercase tracking-wide" style="color:#3e98cc;">Promedio Inmuebles — Mobile</span>
+          <span class="badge badge-poor" id="sampleMobileBadge">—</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="score-ring score-red" id="sampleMobileScore" aria-label="Score mobile promedio inmuebles">—</div>
+          <div class="flex-1 grid grid-cols-3 gap-3" id="sampleMobileMetrics"></div>
+        </div>
+        <p class="threshold-ref mt-2">Objetivo: Score &ge;80 | LCP &le;2.5s | CLS &le;0.1 | TBT &le;200ms</p>
+      </div>
+      <div class="card p-5">
+        <div class="flex items-center gap-2 mb-3">
+          <span class="text-xs font-semibold uppercase tracking-wide" style="color:#3e98cc;">Promedio Inmuebles — Desktop</span>
+          <span class="badge badge-needs" id="sampleDesktopBadge">—</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="score-ring score-yellow" id="sampleDesktopScore" aria-label="Score desktop promedio inmuebles">—</div>
+          <div class="flex-1 grid grid-cols-3 gap-3" id="sampleDesktopMetrics"></div>
+        </div>
+        <p class="threshold-ref mt-2">Objetivo: Score &ge;80 | LCP &le;2.5s | CLS &le;0.1 | TBT &le;200ms</p>
+      </div>
+    </div>
+    <!-- Tabla de detalle -->
     <div class="card p-5">
       <div class="flex items-center gap-3 mb-4">
         <h3 class="text-sm font-semibold" style="color:#00273d;">Muestreo Aleatorio — Detalle de Inmuebles</h3>
@@ -369,6 +395,31 @@
       renderTable('mainTable', mainP);
       renderTable('sampleTable', sampP);
       renderCharts(mainP);
+      // Promedios de inmuebles muestreados
+      var sampMob = sampP.filter(function(r){return r.strategy==='mobile';});
+      var sampDsk = sampP.filter(function(r){return r.strategy==='desktop';});
+      if (sampMob.length > 0) {
+        var smA = avg(sampMob.map(function(r){return r.score;}));
+        var smE = document.getElementById('sampleMobileScore');
+        smE.textContent = smA; smE.className = 'score-ring ' + scoreClass(smA);
+        document.getElementById('sampleMobileBadge').textContent = badgeText(smA);
+        document.getElementById('sampleMobileBadge').className = 'badge ' + badgeClass(smA);
+        var smL = avg(sampMob.map(function(r){return r.lcpMs;}));
+        var smC = avgF(sampMob.map(function(r){return r.clsNum;}));
+        var smT = avg(sampMob.map(function(r){return r.tbtMs;}));
+        document.getElementById('sampleMobileMetrics').innerHTML = mc('LCP',smL+' ms',lcpB(smL)) + mc('CLS',smC,clsB(parseFloat(smC))) + mc('TBT',smT+' ms',tbtB(smT));
+      }
+      if (sampDsk.length > 0) {
+        var sdA = avg(sampDsk.map(function(r){return r.score;}));
+        var sdE = document.getElementById('sampleDesktopScore');
+        sdE.textContent = sdA; sdE.className = 'score-ring ' + scoreClass(sdA);
+        document.getElementById('sampleDesktopBadge').textContent = badgeText(sdA);
+        document.getElementById('sampleDesktopBadge').className = 'badge ' + badgeClass(sdA);
+        var sdL = avg(sampDsk.map(function(r){return r.lcpMs;}));
+        var sdC = avgF(sampDsk.map(function(r){return r.clsNum;}));
+        var sdT = avg(sampDsk.map(function(r){return r.tbtMs;}));
+        document.getElementById('sampleDesktopMetrics').innerHTML = mc('LCP',sdL+' ms',lcpB(sdL)) + mc('CLS',sdC,clsB(parseFloat(sdC))) + mc('TBT',sdT+' ms',tbtB(sdT));
+      }
       if (targetsData && targetsData.kpis) {
         renderKPIs(targetsData.kpis);
       }
