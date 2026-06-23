@@ -29,6 +29,9 @@
       letter-spacing: 0.05em; }
     .threshold-ref { font-size: 0.65rem; color: #9ca3af; }
     canvas { max-height: 280px; }
+    .kpi-card { background: #f9fafb; border-radius: 8px; padding: 1rem;
+      border: 1px solid #e5e7eb; }
+    .kpi-status-icon { font-size: 1.2rem; }
   </style>
 </head>
 <body class="min-h-screen p-4 md:p-6">
@@ -42,7 +45,7 @@
       </div>
       <div class="flex items-center gap-4">
         <div class="text-right">
-          <p class="text-xs text-gray-400">Última medición</p>
+          <p class="text-xs text-gray-400">Ultima medicion</p>
           <p class="text-sm font-semibold text-gray-700" id="lastDate">—</p>
         </div>
         <div class="score-ring score-yellow" id="globalScore" title="Score promedio general" aria-label="Score promedio general">—</div>
@@ -53,12 +56,18 @@
   <nav class="max-w-7xl mx-auto mb-6 border-b border-gray-200" role="tablist" aria-label="Secciones del dashboard">
     <div class="flex gap-6">
       <button class="tab-btn active pb-3 text-sm" data-tab="resumen" role="tab" aria-selected="true">Resumen</button>
-      <button class="tab-btn pb-3 text-sm" data-tab="detalle" role="tab" aria-selected="false">Detalle por Página</button>
+      <button class="tab-btn pb-3 text-sm" data-tab="detalle" role="tab" aria-selected="false">Detalle por Pagina</button>
       <button class="tab-btn pb-3 text-sm" data-tab="recomendaciones" role="tab" aria-selected="false">Recomendaciones</button>
     </div>
   </nav>
   <!-- Tab: Resumen -->
   <section id="tab-resumen" class="max-w-7xl mx-auto space-y-6" role="tabpanel">
+    <!-- Seccion Mapa de Objetivos -->
+    <div class="card p-5" id="targetsSection" style="display:none;">
+      <h3 class="text-sm font-semibold mb-4" style="color:#00273d;">Mapa de Objetivos — KPIs</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4" id="kpiGrid"></div>
+    </div>
+    <!-- Cards Mobile/Desktop -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <div class="card p-5">
         <div class="flex items-center gap-2 mb-3">
@@ -69,7 +78,7 @@
           <div class="score-ring score-yellow" id="mobileAvgScore" aria-label="Score mobile promedio">—</div>
           <div class="flex-1 grid grid-cols-3 gap-3" id="mobileMetrics"></div>
         </div>
-        <p class="threshold-ref mt-2">Umbrales: LCP ≤2.5s | CLS ≤0.1 | TBT ≤200ms</p>
+        <p class="threshold-ref mt-2">Umbrales: LCP &le;2.5s | CLS &le;0.1 | TBT &le;200ms</p>
       </div>
       <div class="card p-5">
         <div class="flex items-center gap-2 mb-3">
@@ -80,23 +89,23 @@
           <div class="score-ring score-green" id="desktopAvgScore" aria-label="Score desktop promedio">—</div>
           <div class="flex-1 grid grid-cols-3 gap-3" id="desktopMetrics"></div>
         </div>
-        <p class="threshold-ref mt-2">Umbrales: LCP ≤2.5s | CLS ≤0.1 | TBT ≤200ms</p>
+        <p class="threshold-ref mt-2">Umbrales: LCP &le;2.5s | CLS &le;0.1 | TBT &le;200ms</p>
       </div>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">LCP por Página (ms)</h3><canvas id="chartLCP"></canvas></div>
-      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">TBT por Página (ms)</h3><canvas id="chartTBT"></canvas></div>
+      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">LCP por Pagina (ms)</h3><canvas id="chartLCP"></canvas></div>
+      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">TBT por Pagina (ms)</h3><canvas id="chartTBT"></canvas></div>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">CLS por Página</h3><canvas id="chartCLS"></canvas></div>
-      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">Score por Página</h3><canvas id="chartScore"></canvas></div>
+      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">CLS por Pagina</h3><canvas id="chartCLS"></canvas></div>
+      <div class="card p-5"><h3 class="text-sm font-semibold mb-3" style="color:#00273d;">Score por Pagina</h3><canvas id="chartScore"></canvas></div>
     </div>
     <div class="card overflow-hidden">
-      <div class="p-4 border-b border-gray-100"><h3 class="text-sm font-semibold" style="color:#00273d;">Resultados — Páginas Principales</h3></div>
+      <div class="p-4 border-b border-gray-100"><h3 class="text-sm font-semibold" style="color:#00273d;">Resultados — Paginas Principales</h3></div>
       <div class="overflow-x-auto">
-        <table class="w-full text-xs" aria-label="Resultados de performance páginas principales">
+        <table class="w-full text-xs" aria-label="Resultados de performance paginas principales">
           <thead class="bg-gray-50"><tr>
-            <th class="text-left px-4 py-2 font-semibold text-gray-600">Página</th>
+            <th class="text-left px-4 py-2 font-semibold text-gray-600">Pagina</th>
             <th class="text-center px-3 py-2 font-semibold text-gray-600">Estrategia</th>
             <th class="text-center px-3 py-2 font-semibold text-gray-600">Score</th>
             <th class="text-center px-3 py-2 font-semibold text-gray-600">LCP</th>
@@ -118,7 +127,7 @@
         <h3 class="text-sm font-semibold" style="color:#00273d;">Muestreo Aleatorio — Detalle de Inmuebles</h3>
         <span class="badge badge-needs">Muestra representativa</span>
       </div>
-      <p class="text-xs text-gray-500 mb-4">URLs de inmuebles seleccionados aleatoriamente para evaluar rendimiento de páginas de detalle.</p>
+      <p class="text-xs text-gray-500 mb-4">URLs de inmuebles seleccionados aleatoriamente para evaluar rendimiento de paginas de detalle.</p>
       <div class="overflow-x-auto">
         <table class="w-full text-xs" aria-label="Resultados de inmuebles muestreados">
           <thead class="bg-gray-50"><tr>
@@ -139,7 +148,7 @@
   <!-- Tab: Recomendaciones -->
   <section id="tab-recomendaciones" class="max-w-7xl mx-auto hidden" role="tabpanel">
     <div class="card p-6">
-      <h3 class="text-sm font-semibold mb-4" style="color:#00273d;">Recomendaciones Técnicas</h3>
+      <h3 class="text-sm font-semibold mb-4" style="color:#00273d;">Recomendaciones Tecnicas</h3>
       <div id="recsContent" class="prose prose-sm max-w-none text-gray-700">
         <p class="text-gray-400 italic">Cargando recomendaciones...</p>
       </div>
@@ -147,88 +156,247 @@
   </section>
 
   <script>
+  var targetsData = null;
+
   function scoreClass(s){return s>=90?'score-green':s>=50?'score-yellow':'score-red';}
   function badgeClass(s){return s>=90?'badge-good':s>=50?'badge-needs':'badge-poor';}
   function badgeText(s){return s>=90?'Bueno':s>=50?'Necesita mejora':'Pobre';}
   function lcpB(ms){return ms<=2500?'badge-good':ms<=4000?'badge-needs':'badge-poor';}
   function clsB(v){return v<=0.1?'badge-good':v<=0.25?'badge-needs':'badge-poor';}
   function tbtB(ms){return ms<=200?'badge-good':ms<=600?'badge-needs':'badge-poor';}
-  function avg(a){return a.length?Math.round(a.reduce((x,y)=>x+y,0)/a.length):0;}
-  function avgF(a){return a.length?(a.reduce((x,y)=>x+y,0)/a.length).toFixed(3):'0';}
+  function avg(a){return a.length?Math.round(a.reduce(function(x,y){return x+y;},0)/a.length):0;}
+  function avgF(a){return a.length?(a.reduce(function(x,y){return x+y;},0)/a.length).toFixed(3):'0';}
   function bText(c){return c==='badge-good'?'Bueno':c==='badge-needs'?'Mejora':'Pobre';}
-  function mc(l,v,b){return'<div class="text-center"><p class="metric-label">'+l+'</p><p class="text-sm font-bold text-gray-800">'+v+'</p><span class="badge '+b+'">'+bText(b)+'</span></div>';}
+  function mc(l,v,b){return '<div class="text-center"><p class="metric-label">'+l+'</p><p class="text-sm font-bold text-gray-800">'+v+'</p><span class="badge '+b+'">'+bText(b)+'</span></div>';}
 
-  document.querySelectorAll('.tab-btn').forEach(btn=>{btn.addEventListener('click',()=>{
-    document.querySelectorAll('.tab-btn').forEach(b=>{b.classList.remove('active');b.setAttribute('aria-selected','false');});
+  document.querySelectorAll('.tab-btn').forEach(function(btn){btn.addEventListener('click',function(){
+    document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');b.setAttribute('aria-selected','false');});
     btn.classList.add('active');btn.setAttribute('aria-selected','true');
-    const t=btn.dataset.tab;
+    var t=btn.dataset.tab;
     document.getElementById('tab-resumen').classList.toggle('hidden',t!=='resumen');
     document.getElementById('tab-detalle').classList.toggle('hidden',t!=='detalle');
     document.getElementById('tab-recomendaciones').classList.toggle('hidden',t!=='recomendaciones');
   });});
 
-  function renderTable(id,rows){
-    document.getElementById(id).innerHTML=rows.map(r=>{
-      const sc=scoreClass(r.score);
-      return'<tr class="border-b border-gray-50 hover:bg-gray-50">'
-        +'<td class="px-4 py-2 font-medium text-gray-800">'+r.page+'</td>'
-        +'<td class="text-center px-3 py-2"><span class="badge badge-needs">'+r.strategy+'</span></td>'
-        +'<td class="text-center px-3 py-2"><span class="inline-flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold '+sc+'">'+r.score+'</span></td>'
-        +'<td class="text-center px-3 py-2"><span class="badge '+lcpB(r.lcpMs)+'">'+r.lcp+'</span></td>'
-        +'<td class="text-center px-3 py-2"><span class="badge '+clsB(r.clsNum)+'">'+r.cls+'</span></td>'
-        +'<td class="text-center px-3 py-2"><span class="badge '+tbtB(r.tbtMs)+'">'+r.tbt+'</span></td>'
-        +'<td class="text-center px-3 py-2 text-gray-600">'+r.fcp+'</td>'
-        +'<td class="text-center px-3 py-2"><a href="'+r.url+'" target="_blank" rel="noopener" class="text-blue-500 hover:underline">Ver</a></td></tr>';
-    }).join('');
+  function parseNumericValue(val) {
+    if (typeof val === 'number') return val;
+    var str = String(val).replace(/[^0-9.\-]/g, '');
+    return parseFloat(str) || 0;
   }
 
-  function renderCharts(mp){
-    const pgs=[...new Set(mp.map(r=>r.page))];
-    const mob=mp.filter(r=>r.strategy==='mobile');
-    const dsk=mp.filter(r=>r.strategy==='desktop');
-    const mP=pgs.map(p=>mob.find(r=>r.page===p)||{});
-    const dP=pgs.map(p=>dsk.find(r=>r.page===p)||{});
-    const bo={responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}}},scales:{y:{beginAtZero:true}}};
-    const aLCP={g:{type:'line',yMin:2500,yMax:2500,borderColor:'#10b981',borderWidth:1.5,borderDash:[4,4],label:{content:'Bueno 2.5s',display:true,position:'start',font:{size:9}}},p:{type:'line',yMin:4000,yMax:4000,borderColor:'#ef4444',borderWidth:1.5,borderDash:[4,4],label:{content:'Pobre 4s',display:true,position:'start',font:{size:9}}}};
-    const aTBT={g:{type:'line',yMin:200,yMax:200,borderColor:'#10b981',borderWidth:1.5,borderDash:[4,4],label:{content:'Bueno 200ms',display:true,position:'start',font:{size:9}}},p:{type:'line',yMin:600,yMax:600,borderColor:'#ef4444',borderWidth:1.5,borderDash:[4,4],label:{content:'Pobre 600ms',display:true,position:'start',font:{size:9}}}};
-    const aCLS={g:{type:'line',yMin:0.1,yMax:0.1,borderColor:'#10b981',borderWidth:1.5,borderDash:[4,4],label:{content:'Bueno 0.1',display:true,position:'start',font:{size:9}}},p:{type:'line',yMin:0.25,yMax:0.25,borderColor:'#ef4444',borderWidth:1.5,borderDash:[4,4],label:{content:'Pobre 0.25',display:true,position:'start',font:{size:9}}}};
-    const aSc={g:{type:'line',yMin:90,yMax:90,borderColor:'#10b981',borderWidth:1.5,borderDash:[4,4],label:{content:'Bueno 90',display:true,position:'start',font:{size:9}}},p:{type:'line',yMin:50,yMax:50,borderColor:'#ef4444',borderWidth:1.5,borderDash:[4,4],label:{content:'Pobre 50',display:true,position:'start',font:{size:9}}}};
-    new Chart(document.getElementById('chartLCP'),{type:'bar',data:{labels:pgs,datasets:[{label:'Mobile',data:mP.map(r=>r.lcpMs||0),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(r=>r.lcpMs||0),backgroundColor:'#3e98cc'}]},options:{...bo,plugins:{...bo.plugins,annotation:{annotations:aLCP}}}});
-    new Chart(document.getElementById('chartTBT'),{type:'bar',data:{labels:pgs,datasets:[{label:'Mobile',data:mP.map(r=>r.tbtMs||0),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(r=>r.tbtMs||0),backgroundColor:'#3e98cc'}]},options:{...bo,plugins:{...bo.plugins,annotation:{annotations:aTBT}}}});
-    new Chart(document.getElementById('chartCLS'),{type:'bar',data:{labels:pgs,datasets:[{label:'Mobile',data:mP.map(r=>r.clsNum||0),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(r=>r.clsNum||0),backgroundColor:'#3e98cc'}]},options:{...bo,plugins:{...bo.plugins,annotation:{annotations:aCLS}}}});
-    new Chart(document.getElementById('chartScore'),{type:'bar',data:{labels:pgs,datasets:[{label:'Mobile',data:mP.map(r=>r.score||0),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(r=>r.score||0),backgroundColor:'#3e98cc'}]},options:{...bo,plugins:{...bo.plugins,annotation:{annotations:aSc}}}});
+  function isLowerBetter(name) {
+    var lower = name.toLowerCase();
+    if (lower.indexOf('lcp') !== -1) return true;
+    if (lower.indexOf('cls') !== -1) return true;
+    if (lower.indexOf('tbt') !== -1) return true;
+    return false;
   }
 
-  async function loadDashboard(){
-    try{
-      const res=await fetch('data.json');const data=await res.json();
-      const latest=data[data.length-1];const results=latest.results||[];
-      document.getElementById('lastDate').textContent=latest.date+' '+latest.time+' ('+latest.session+')';
-      const mainP=results.filter(r=>!r.page.startsWith('Detalle:'));
-      const sampP=results.filter(r=>r.page.startsWith('Detalle:'));
-      const mob=mainP.filter(r=>r.strategy==='mobile');
-      const dsk=mainP.filter(r=>r.strategy==='desktop');
-      const gA=avg(results.map(r=>r.score));
-      const gE=document.getElementById('globalScore');gE.textContent=gA;gE.className='score-ring '+scoreClass(gA);
-      const mA=avg(mob.map(r=>r.score));const mE=document.getElementById('mobileAvgScore');mE.textContent=mA;mE.className='score-ring '+scoreClass(mA);
-      document.getElementById('mobileBadge').textContent=badgeText(mA);document.getElementById('mobileBadge').className='badge '+badgeClass(mA);
-      const mL=avg(mob.map(r=>r.lcpMs)),mC=avgF(mob.map(r=>r.clsNum)),mT=avg(mob.map(r=>r.tbtMs));
-      document.getElementById('mobileMetrics').innerHTML=mc('LCP',mL+' ms',lcpB(mL))+mc('CLS',mC,clsB(parseFloat(mC)))+mc('TBT',mT+' ms',tbtB(mT));
-      const dA=avg(dsk.map(r=>r.score));const dE=document.getElementById('desktopAvgScore');dE.textContent=dA;dE.className='score-ring '+scoreClass(dA);
-      document.getElementById('desktopBadge').textContent=badgeText(dA);document.getElementById('desktopBadge').className='badge '+badgeClass(dA);
-      const dL=avg(dsk.map(r=>r.lcpMs)),dC=avgF(dsk.map(r=>r.clsNum)),dT=avg(dsk.map(r=>r.tbtMs));
-      document.getElementById('desktopMetrics').innerHTML=mc('LCP',dL+' ms',lcpB(dL))+mc('CLS',dC,clsB(parseFloat(dC)))+mc('TBT',dT+' ms',tbtB(dT));
-      renderTable('mainTable',mainP);renderTable('sampleTable',sampP);renderCharts(mainP);
-    }catch(e){console.error('Error:',e);document.getElementById('globalScore').textContent='!';}
+  function computeProgress(kpi) {
+    var current = parseNumericValue(kpi.current);
+    var target = parseNumericValue(kpi.target);
+    if (target === 0) return 0;
+    if (isLowerBetter(kpi.name)) {
+      if (current <= target) return 100;
+      var ratio = target / current;
+      return Math.min(Math.round(ratio * 100), 100);
+    } else {
+      if (current >= target) return 100;
+      return Math.min(Math.round((current / target) * 100), 100);
+    }
   }
-  async function loadRecs(){
-    try{
-      const res=await fetch('data.json');const data=await res.json();const latest=data[data.length-1];
-      const r=await fetch('recommendations/'+latest.date+'.html');
-      document.getElementById('recsContent').innerHTML=r.ok?await r.text():'<p class="text-gray-400">No hay recomendaciones para esta fecha.</p>';
-    }catch(e){document.getElementById('recsContent').innerHTML='<p class="text-red-400">Error cargando recomendaciones.</p>';}
+
+  function getProgressColor(pct) {
+    if (pct >= 100) return '#10b981';
+    if (pct >= 70) return '#f59e0b';
+    return '#ef4444';
   }
-  loadDashboard();loadRecs();
+
+  function getStatusIcon(pct) {
+    if (pct >= 100) return '&#9679;';
+    if (pct >= 70) return '&#9670;';
+    return '&#9650;';
+  }
+
+  function getStatusColor(pct) {
+    if (pct >= 100) return '#10b981';
+    if (pct >= 70) return '#f59e0b';
+    return '#ef4444';
+  }
+
+  function renderKPIs(kpis) {
+    var grid = document.getElementById('kpiGrid');
+    var html = '';
+    for (var i = 0; i < kpis.length; i++) {
+      var kpi = kpis[i];
+      var pct = computeProgress(kpi);
+      var color = getProgressColor(pct);
+      var icon = getStatusIcon(pct);
+      var iconColor = getStatusColor(pct);
+      html += '<div class="kpi-card">';
+      html += '<div class="flex items-center gap-2 mb-2">';
+      html += '<span class="kpi-status-icon" style="color:' + iconColor + ';">' + icon + '</span>';
+      html += '<span class="text-xs font-medium text-gray-700 truncate" title="' + kpi.name + '">' + kpi.name + '</span>';
+      html += '</div>';
+      html += '<div class="flex items-baseline gap-2 mb-1">';
+      html += '<span class="text-xl font-bold text-gray-900">' + kpi.current + '</span>';
+      html += '<span class="text-xs text-gray-400">' + kpi.unit + '</span>';
+      html += '</div>';
+      html += '<p class="text-xs text-gray-500 mb-2">Objetivo: ' + kpi.target + '</p>';
+      html += '<div class="w-full bg-gray-200 rounded-full h-3">';
+      html += '<div class="h-3 rounded-full" style="width:' + pct + '%; background:' + color + ';"></div>';
+      html += '</div>';
+      html += '<p class="text-xs text-right mt-1" style="color:' + color + ';">' + pct + '%</p>';
+      html += '</div>';
+    }
+    grid.innerHTML = html;
+    document.getElementById('targetsSection').style.display = 'block';
+  }
+
+  function renderTable(id, rows) {
+    var tbody = document.getElementById(id);
+    var html = '';
+    for (var i = 0; i < rows.length; i++) {
+      var r = rows[i];
+      var sc = scoreClass(r.score);
+      html += '<tr class="border-b border-gray-50 hover:bg-gray-50">';
+      html += '<td class="px-4 py-2 font-medium text-gray-800">' + r.page + '</td>';
+      html += '<td class="text-center px-3 py-2"><span class="badge badge-needs">' + r.strategy + '</span></td>';
+      html += '<td class="text-center px-3 py-2"><span class="inline-flex items-center justify-center w-8 h-8 rounded-full text-xs font-bold ' + sc + '">' + r.score + '</span></td>';
+      html += '<td class="text-center px-3 py-2"><span class="badge ' + lcpB(r.lcpMs) + '">' + r.lcp + '</span></td>';
+      html += '<td class="text-center px-3 py-2"><span class="badge ' + clsB(r.clsNum) + '">' + r.cls + '</span></td>';
+      html += '<td class="text-center px-3 py-2"><span class="badge ' + tbtB(r.tbtMs) + '">' + r.tbt + '</span></td>';
+      html += '<td class="text-center px-3 py-2 text-gray-600">' + r.fcp + '</td>';
+      html += '<td class="text-center px-3 py-2"><a href="' + r.url + '" target="_blank" rel="noopener" class="text-blue-500 hover:underline">Ver</a></td>';
+      html += '</tr>';
+    }
+    tbody.innerHTML = html;
+  }
+
+  function getAnnotationLines(metric) {
+    var tColor = '#3e98cc';
+    var tStyle = [5, 5];
+    var targets = targetsData ? targetsData.targets : null;
+    var annotations = {};
+    if (metric === 'lcp') {
+      var lcpTarget = (targets && targets.lcpMs) ? targets.lcpMs.target : 2500;
+      annotations.target = {type:'line',yMin:lcpTarget,yMax:lcpTarget,borderColor:tColor,borderWidth:1.5,borderDash:tStyle,label:{content:'Objetivo ' + lcpTarget + 'ms',display:true,position:'start',font:{size:9},color:tColor}};
+      annotations.poor = {type:'line',yMin:4000,yMax:4000,borderColor:'#ef4444',borderWidth:1.5,borderDash:[4,4],label:{content:'Pobre 4s',display:true,position:'end',font:{size:9}}};
+    } else if (metric === 'tbt') {
+      var tbtTarget = (targets && targets.tbtMs) ? targets.tbtMs.target : 200;
+      annotations.target = {type:'line',yMin:tbtTarget,yMax:tbtTarget,borderColor:tColor,borderWidth:1.5,borderDash:tStyle,label:{content:'Objetivo ' + tbtTarget + 'ms',display:true,position:'start',font:{size:9},color:tColor}};
+      annotations.poor = {type:'line',yMin:600,yMax:600,borderColor:'#ef4444',borderWidth:1.5,borderDash:[4,4],label:{content:'Pobre 600ms',display:true,position:'end',font:{size:9}}};
+    } else if (metric === 'cls') {
+      var clsTarget = (targets && targets.clsNum) ? targets.clsNum.target : 0.1;
+      annotations.target = {type:'line',yMin:clsTarget,yMax:clsTarget,borderColor:tColor,borderWidth:1.5,borderDash:tStyle,label:{content:'Objetivo ' + clsTarget,display:true,position:'start',font:{size:9},color:tColor}};
+      annotations.poor = {type:'line',yMin:0.25,yMax:0.25,borderColor:'#ef4444',borderWidth:1.5,borderDash:[4,4],label:{content:'Pobre 0.25',display:true,position:'end',font:{size:9}}};
+    } else if (metric === 'score') {
+      var scoreTarget = (targets && targets.score) ? targets.score.target : 80;
+      annotations.target = {type:'line',yMin:scoreTarget,yMax:scoreTarget,borderColor:tColor,borderWidth:1.5,borderDash:tStyle,label:{content:'Objetivo ' + scoreTarget,display:true,position:'start',font:{size:9},color:tColor}};
+      annotations.poor = {type:'line',yMin:50,yMax:50,borderColor:'#ef4444',borderWidth:1.5,borderDash:[4,4],label:{content:'Pobre 50',display:true,position:'end',font:{size:9}}};
+    }
+    return annotations;
+  }
+
+  function renderCharts(mp) {
+    var pgsSet = {};
+    var pgs = [];
+    for (var i = 0; i < mp.length; i++) {
+      if (!pgsSet[mp[i].page]) { pgsSet[mp[i].page] = true; pgs.push(mp[i].page); }
+    }
+    var mob = mp.filter(function(r){return r.strategy==='mobile';});
+    var dsk = mp.filter(function(r){return r.strategy==='desktop';});
+    var mP = pgs.map(function(p){return mob.find(function(r){return r.page===p;})||{};});
+    var dP = pgs.map(function(p){return dsk.find(function(r){return r.page===p;})||{};});
+    var bo = {responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}}},scales:{y:{beginAtZero:true}}};
+
+    new Chart(document.getElementById('chartLCP'),{type:'bar',data:{labels:pgs,datasets:[{label:'Mobile',data:mP.map(function(r){return r.lcpMs||0;}),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(function(r){return r.lcpMs||0;}),backgroundColor:'#3e98cc'}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}},annotation:{annotations:getAnnotationLines('lcp')}},scales:{y:{beginAtZero:true}}}});
+
+    new Chart(document.getElementById('chartTBT'),{type:'bar',data:{labels:pgs,datasets:[{label:'Mobile',data:mP.map(function(r){return r.tbtMs||0;}),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(function(r){return r.tbtMs||0;}),backgroundColor:'#3e98cc'}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}},annotation:{annotations:getAnnotationLines('tbt')}},scales:{y:{beginAtZero:true}}}});
+
+    new Chart(document.getElementById('chartCLS'),{type:'bar',data:{labels:pgs,datasets:[{label:'Mobile',data:mP.map(function(r){return r.clsNum||0;}),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(function(r){return r.clsNum||0;}),backgroundColor:'#3e98cc'}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}},annotation:{annotations:getAnnotationLines('cls')}},scales:{y:{beginAtZero:true}}}});
+
+    new Chart(document.getElementById('chartScore'),{type:'bar',data:{labels:pgs,datasets:[{label:'Mobile',data:mP.map(function(r){return r.score||0;}),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(function(r){return r.score||0;}),backgroundColor:'#3e98cc'}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}},annotation:{annotations:getAnnotationLines('score')}},scales:{y:{beginAtZero:true}}}});
+  }
+
+  function loadTargets() {
+    return fetch('targets.json').then(function(res) {
+      if (!res.ok) throw new Error('targets.json not found');
+      return res.json();
+    }).then(function(data) {
+      targetsData = data;
+      return data;
+    }).catch(function(e) {
+      console.warn('targets.json no disponible, usando defaults:', e.message);
+      targetsData = null;
+      return null;
+    });
+  }
+
+  function loadDashboard() {
+    fetch('data.json').then(function(res){return res.json();}).then(function(data) {
+      var latest = data[data.length - 1];
+      var results = latest.results || [];
+      document.getElementById('lastDate').textContent = latest.date + ' ' + latest.time + ' (' + latest.session + ')';
+      var mainP = results.filter(function(r){return !r.page.startsWith('Detalle:');});
+      var sampP = results.filter(function(r){return r.page.startsWith('Detalle:');});
+      var mob = mainP.filter(function(r){return r.strategy==='mobile';});
+      var dsk = mainP.filter(function(r){return r.strategy==='desktop';});
+      var gA = avg(results.map(function(r){return r.score;}));
+      var gE = document.getElementById('globalScore');
+      gE.textContent = gA;
+      gE.className = 'score-ring ' + scoreClass(gA);
+      var mA = avg(mob.map(function(r){return r.score;}));
+      var mE = document.getElementById('mobileAvgScore');
+      mE.textContent = mA;
+      mE.className = 'score-ring ' + scoreClass(mA);
+      document.getElementById('mobileBadge').textContent = badgeText(mA);
+      document.getElementById('mobileBadge').className = 'badge ' + badgeClass(mA);
+      var mL = avg(mob.map(function(r){return r.lcpMs;}));
+      var mC = avgF(mob.map(function(r){return r.clsNum;}));
+      var mT = avg(mob.map(function(r){return r.tbtMs;}));
+      document.getElementById('mobileMetrics').innerHTML = mc('LCP',mL+' ms',lcpB(mL)) + mc('CLS',mC,clsB(parseFloat(mC))) + mc('TBT',mT+' ms',tbtB(mT));
+      var dA = avg(dsk.map(function(r){return r.score;}));
+      var dE = document.getElementById('desktopAvgScore');
+      dE.textContent = dA;
+      dE.className = 'score-ring ' + scoreClass(dA);
+      document.getElementById('desktopBadge').textContent = badgeText(dA);
+      document.getElementById('desktopBadge').className = 'badge ' + badgeClass(dA);
+      var dL = avg(dsk.map(function(r){return r.lcpMs;}));
+      var dC = avgF(dsk.map(function(r){return r.clsNum;}));
+      var dT = avg(dsk.map(function(r){return r.tbtMs;}));
+      document.getElementById('desktopMetrics').innerHTML = mc('LCP',dL+' ms',lcpB(dL)) + mc('CLS',dC,clsB(parseFloat(dC))) + mc('TBT',dT+' ms',tbtB(dT));
+      renderTable('mainTable', mainP);
+      renderTable('sampleTable', sampP);
+      renderCharts(mainP);
+      if (targetsData && targetsData.kpis) {
+        renderKPIs(targetsData.kpis);
+      }
+    }).catch(function(e) {
+      console.error('Error:', e);
+      document.getElementById('globalScore').textContent = '!';
+    });
+  }
+
+  function loadRecs() {
+    fetch('data.json').then(function(res){return res.json();}).then(function(data) {
+      var latest = data[data.length - 1];
+      return fetch('recommendations/' + latest.date + '.html');
+    }).then(function(r) {
+      if (r.ok) return r.text();
+      return '<p class="text-gray-400">No hay recomendaciones para esta fecha.</p>';
+    }).then(function(html) {
+      document.getElementById('recsContent').innerHTML = html;
+    }).catch(function(e) {
+      document.getElementById('recsContent').innerHTML = '<p class="text-red-400">Error cargando recomendaciones.</p>';
+    });
+  }
+
+  // Inicializacion: cargar targets primero, luego dashboard y recs
+  loadTargets().then(function() {
+    loadDashboard();
+    loadRecs();
+  });
   </script>
 </body>
 </html>
