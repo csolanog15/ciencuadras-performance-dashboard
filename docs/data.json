@@ -2,39 +2,31 @@
   {
     "date": "2026-06-22",
     "time": "11:26",
-    "session": "morning",
+    "session": "Medicion 22-Jun",
     "results": [
-      {"url": "https://www.ciencuadras.com/", "page": "Home", "strategy": "mobile", "score": 58, "lcp": "9.0 s", "lcpMs": 9000, "cls": "0.004", "clsNum": 0.004, "tbt": "140 ms", "tbtMs": 140, "fcp": "6.5 s", "fcpMs": 6500},
-      {"url": "https://www.ciencuadras.com/", "page": "Home", "strategy": "desktop", "score": 86, "lcp": "1.0 s", "lcpMs": 1000, "cls": "0.011", "clsNum": 0.011, "tbt": "270 ms", "tbtMs": 270, "fcp": "0.8 s", "fcpMs": 800},
-      {"url": "https://www.ciencuadras.com/arriendo", "page": "Arriendo", "strategy": "mobile", "score": 48, "lcp": "8.4 s", "lcpMs": 8400, "cls": "0.107", "clsNum": 0.107, "tbt": "800 ms", "tbtMs": 800, "fcp": "1.7 s", "fcpMs": 1700},
-      {"url": "https://www.ciencuadras.com/arriendo", "page": "Arriendo", "strategy": "desktop", "score": 75, "lcp": "0.7 s", "lcpMs": 700, "cls": "0.027", "clsNum": 0.027, "tbt": "550 ms", "tbtMs": 550, "fcp": "0.4 s", "fcpMs": 400},
-      {"url": "https://www.ciencuadras.com/venta", "page": "Venta", "strategy": "mobile", "score": 86, "lcp": "2.3 s", "lcpMs": 2300, "cls": "0.106", "clsNum": 0.106, "tbt": "280 ms", "tbtMs": 280, "fcp": "1.1 s", "fcpMs": 1100},
-      {"url": "https://www.ciencuadras.com/venta", "page": "Venta", "strategy": "desktop", "score": 85, "lcp": "0.5 s", "lcpMs": 500, "cls": "0.027", "clsNum": 0.027, "tbt": "320 ms", "tbtMs": 320, "fcp": "0.3 s", "fcpMs": 300},
-      {"url": "https://www.ciencuadras.com/inmueble/apartamento-en-arriendo-en-riomar-barranquilla-3639873", "page": "Detalle: Apto Arriendo Riomar, Barranquilla", "strategy": "mobile", "score": 48, "lcp": "13.6 s", "lcpMs": 13600, "cls": "0.106", "clsNum": 0.106, "tbt": "640 ms", "tbtMs": 640, "fcp": "0.9 s", "fcpMs": 900},
-      {"url": "https://www.ciencuadras.com/inmueble/apartamento-en-arriendo-en-riomar-barranquilla-3639873", "page": "Detalle: Apto Arriendo Riomar, Barranquilla", "strategy": "desktop", "score": 55, "lcp": "3.2 s", "lcpMs": 3200, "cls": "0.022", "clsNum": 0.022, "tbt": "510 ms", "tbtMs": 510, "fcp": "0.3 s", "fcpMs": 300},
-      {"url": "https://www.ciencuadras.com/inmueble/apartamento-en-venta-en-chapinero-bogota-5841092", "page": "Detalle: Apto Venta Chapinero, Bogota", "strategy": "mobile", "score": 42, "lcp": "13.5 s", "lcpMs": 13500, "cls": "0.108", "clsNum": 0.108, "tbt": "960 ms", "tbtMs": 960, "fcp": "0.9 s", "fcpMs": 900},
-      {"url": "https://www.ciencuadras.com/inmueble/apartamento-en-venta-en-chapinero-bogota-5841092", "page": "Detalle: Apto Venta Chapinero, Bogota", "strategy": "desktop", "score": 38, "lcp": "4.4 s", "lcpMs": 4400, "cls": "0.033", "clsNum": 0.033, "tbt": "2210 ms", "tbtMs": 2210, "fcp": "0.3 s", "fcpMs": 300},
-      {"url": "https://www.ciencuadras.com/inmueble/casa-en-arriendo-en-envigado-medellin-4721856", "page": "Detalle: Casa Arriendo Envigado, Medellin", "strategy": "mobile", "score": 38, "lcp": "15.3 s", "lcpMs": 15300, "cls": "0.106", "clsNum": 0.106, "tbt": "1390 ms", "tbtMs": 1390, "fcp": "0.9 s", "fcpMs": 900},
-      {"url": "https://www.ciencuadras.com/inmueble/casa-en-arriendo-en-envigado-medellin-4721856", "page": "Detalle: Casa Arriendo Envigado, Medellin", "strategy": "desktop", "score": 53, "lcp": "3.2 s", "lcpMs": 3200, "cls": "0.022", "clsNum": 0.022, "tbt": "530 ms", "tbtMs": 530, "fcp": "0.3 s", "fcpMs": 300}
+      {"page":"Home","strategy":"mobile","score":58,"lcp":"9.0 s","lcpMs":8976,"cls":"0.004","clsNum":0.004,"tbt":"140 ms","tbtMs":136,"fcp":"6.5 s","fcpMs":6451,"url":"https://www.ciencuadras.com/"},
+      {"page":"Home","strategy":"desktop","score":86,"lcp":"1.0 s","lcpMs":1001,"cls":"0.011","clsNum":0.011,"tbt":"270 ms","tbtMs":265,"fcp":"0.8 s","fcpMs":762,"url":"https://www.ciencuadras.com/"},
+      {"page":"Arriendo","strategy":"mobile","score":48,"lcp":"8.4 s","lcpMs":8424,"cls":"0.107","clsNum":0.107,"tbt":"800 ms","tbtMs":797,"fcp":"1.7 s","fcpMs":1651,"url":"https://www.ciencuadras.com/arriendo"},
+      {"page":"Arriendo","strategy":"desktop","score":83,"lcp":"0.6 s","lcpMs":600,"cls":"0.027","clsNum":0.027,"tbt":"320 ms","tbtMs":320,"fcp":"0.3 s","fcpMs":292,"url":"https://www.ciencuadras.com/arriendo"},
+      {"page":"Venta","strategy":"mobile","score":47,"lcp":"8.5 s","lcpMs":8500,"cls":"0.106","clsNum":0.106,"tbt":"430 ms","tbtMs":430,"fcp":"1.1 s","fcpMs":1100,"url":"https://www.ciencuadras.com/venta"},
+      {"page":"Venta","strategy":"desktop","score":85,"lcp":"0.5 s","lcpMs":532,"cls":"0.027","clsNum":0.027,"tbt":"320 ms","tbtMs":320,"fcp":"0.3 s","fcpMs":292,"url":"https://www.ciencuadras.com/venta"},
+      {"page":"Detalle: Inmueble Arriendo","strategy":"mobile","score":66,"lcp":"5.8 s","lcpMs":5785,"cls":"0.073","clsNum":0.073,"tbt":"373 ms","tbtMs":373,"fcp":"1.1 s","fcpMs":1100,"url":"https://www.ciencuadras.com/arriendo/apartamento/bogota/chapinero/conjunto-residencial-parque-97-3752116"},
+      {"page":"Detalle: Inmueble Arriendo","strategy":"desktop","score":80,"lcp":"0.9 s","lcpMs":994,"cls":"0.022","clsNum":0.022,"tbt":"403 ms","tbtMs":403,"fcp":"0.4 s","fcpMs":400,"url":"https://www.ciencuadras.com/arriendo/apartamento/bogota/chapinero/conjunto-residencial-parque-97-3752116"}
     ]
   },
   {
-    "date": "2026-06-22",
-    "time": "21:04",
-    "session": "afternoon",
+    "date": "2026-06-23",
+    "time": "08:28",
+    "session": "Medicion 23-Jun",
     "results": [
-      {"url": "https://www.ciencuadras.com/", "page": "Home", "strategy": "mobile", "score": 46, "lcp": "9.1 s", "lcpMs": 9103, "cls": "0.004", "clsNum": 0.004, "tbt": "510 ms", "tbtMs": 507, "fcp": "6.5 s", "fcpMs": 6451},
-      {"url": "https://www.ciencuadras.com/", "page": "Home", "strategy": "desktop", "score": 88, "lcp": "1.7 s", "lcpMs": 1701, "cls": "0.011", "clsNum": 0.011, "tbt": "100 ms", "tbtMs": 96, "fcp": "1.2 s", "fcpMs": 1201},
-      {"url": "https://www.ciencuadras.com/arriendo", "page": "Arriendo", "strategy": "mobile", "score": 81, "lcp": "4.0 s", "lcpMs": 3976, "cls": "0.108", "clsNum": 0.108, "tbt": "180 ms", "tbtMs": 176, "fcp": "1.1 s", "fcpMs": 1074},
-      {"url": "https://www.ciencuadras.com/arriendo", "page": "Arriendo", "strategy": "desktop", "score": 83, "lcp": "0.7 s", "lcpMs": 681, "cls": "0.027", "clsNum": 0.027, "tbt": "370 ms", "tbtMs": 370, "fcp": "0.4 s", "fcpMs": 401},
-      {"url": "https://www.ciencuadras.com/venta", "page": "Venta", "strategy": "mobile", "score": 70, "lcp": "4.3 s", "lcpMs": 4276, "cls": "0.107", "clsNum": 0.107, "tbt": "440 ms", "tbtMs": 435, "fcp": "1.1 s", "fcpMs": 1066},
-      {"url": "https://www.ciencuadras.com/venta", "page": "Venta", "strategy": "desktop", "score": 69, "lcp": "0.6 s", "lcpMs": 601, "cls": "0.027", "clsNum": 0.027, "tbt": "740 ms", "tbtMs": 743, "fcp": "0.3 s", "fcpMs": 298},
-      {"url": "https://www.ciencuadras.com/inmueble/apartamento-en-arriendo-en-riomar-barranquilla-3639873", "page": "Detalle: Apto Arriendo Riomar, Barranquilla", "strategy": "mobile", "score": 45, "lcp": "14.3 s", "lcpMs": 14348, "cls": "0.106", "clsNum": 0.106, "tbt": "770 ms", "tbtMs": 767, "fcp": "0.9 s", "fcpMs": 921},
-      {"url": "https://www.ciencuadras.com/inmueble/apartamento-en-arriendo-en-riomar-barranquilla-3639873", "page": "Detalle: Apto Arriendo Riomar, Barranquilla", "strategy": "desktop", "score": 48, "lcp": "3.3 s", "lcpMs": 3278, "cls": "0.045", "clsNum": 0.045, "tbt": "680 ms", "tbtMs": 677, "fcp": "0.3 s", "fcpMs": 254},
-      {"url": "https://www.ciencuadras.com/inmueble/apartamento-en-venta-en-chapinero-bogota-5841092", "page": "Detalle: Apto Venta Chapinero, Bogota", "strategy": "mobile", "score": 48, "lcp": "13.5 s", "lcpMs": 13450, "cls": "0.106", "clsNum": 0.106, "tbt": "630 ms", "tbtMs": 630, "fcp": "0.9 s", "fcpMs": 910},
-      {"url": "https://www.ciencuadras.com/inmueble/apartamento-en-venta-en-chapinero-bogota-5841092", "page": "Detalle: Apto Venta Chapinero, Bogota", "strategy": "desktop", "score": 49, "lcp": "3.0 s", "lcpMs": 3005, "cls": "0.022", "clsNum": 0.022, "tbt": "790 ms", "tbtMs": 792, "fcp": "0.3 s", "fcpMs": 254},
-      {"url": "https://www.ciencuadras.com/inmueble/casa-en-arriendo-en-envigado-medellin-4721856", "page": "Detalle: Casa Arriendo Envigado, Medellin", "strategy": "mobile", "score": 50, "lcp": "13.0 s", "lcpMs": 13008, "cls": "0.106", "clsNum": 0.106, "tbt": "580 ms", "tbtMs": 579, "fcp": "0.9 s", "fcpMs": 913},
-      {"url": "https://www.ciencuadras.com/inmueble/casa-en-arriendo-en-envigado-medellin-4721856", "page": "Detalle: Casa Arriendo Envigado, Medellin", "strategy": "desktop", "score": 98, "lcp": "0.5 s", "lcpMs": 460, "cls": "0", "clsNum": 0, "tbt": "130 ms", "tbtMs": 130, "fcp": "0.3 s", "fcpMs": 253}
+      {"page":"Home","strategy":"mobile","score":60,"lcp":"8.9 s","lcpMs":8877,"cls":"0.005","clsNum":0.005,"tbt":"100 ms","tbtMs":104,"fcp":"5.9 s","fcpMs":5851,"url":"https://www.ciencuadras.com/"},
+      {"page":"Home","strategy":"desktop","score":86,"lcp":"1.0 s","lcpMs":1001,"cls":"0.011","clsNum":0.011,"tbt":"270 ms","tbtMs":265,"fcp":"0.8 s","fcpMs":762,"url":"https://www.ciencuadras.com/"},
+      {"page":"Arriendo","strategy":"mobile","score":85,"lcp":"2.3 s","lcpMs":2263,"cls":"0.106","clsNum":0.106,"tbt":"390 ms","tbtMs":392,"fcp":"1.1 s","fcpMs":1114,"url":"https://www.ciencuadras.com/arriendo"},
+      {"page":"Arriendo","strategy":"desktop","score":60,"lcp":"2.1 s","lcpMs":2086,"cls":"0.027","clsNum":0.027,"tbt":"580 ms","tbtMs":577,"fcp":"0.3 s","fcpMs":294,"url":"https://www.ciencuadras.com/arriendo"},
+      {"page":"Venta","strategy":"mobile","score":76,"lcp":"4.1 s","lcpMs":4051,"cls":"0.106","clsNum":0.106,"tbt":"220 ms","tbtMs":219,"fcp":"1.1 s","fcpMs":1085,"url":"https://www.ciencuadras.com/venta"},
+      {"page":"Venta","strategy":"desktop","score":91,"lcp":"0.7 s","lcpMs":681,"cls":"0.027","clsNum":0.027,"tbt":"230 ms","tbtMs":229,"fcp":"0.3 s","fcpMs":302,"url":"https://www.ciencuadras.com/venta"},
+      {"page":"Detalle: Inmueble Arriendo","strategy":"mobile","score":57,"lcp":"4.1 s","lcpMs":4126,"cls":"0.001","clsNum":0.001,"tbt":"1145 ms","tbtMs":1145,"fcp":"1.1 s","fcpMs":1072,"url":"https://www.ciencuadras.com/arriendo/apartamento/bogota/chapinero/conjunto-residencial-parque-97-3752116"},
+      {"page":"Detalle: Inmueble Arriendo","strategy":"desktop","score":64,"lcp":"0.7 s","lcpMs":661,"cls":"0.001","clsNum":0.001,"tbt":"1225 ms","tbtMs":1225,"fcp":"0.4 s","fcpMs":441,"url":"https://www.ciencuadras.com/arriendo/apartamento/bogota/chapinero/conjunto-residencial-parque-97-3752116"}
     ]
   }
 ]
