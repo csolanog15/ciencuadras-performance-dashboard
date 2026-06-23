@@ -1,0 +1,115 @@
+<div style="font-family: Montserrat, sans-serif;">
+
+<h1 style="color:#00273d; margin-bottom: 0.25rem;">Plan de Mejora &mdash; Core Web Vitals</h1>
+<p style="color:#6b7280; font-size:0.85rem; margin-bottom: 2rem;">Fecha: 2026-06-23 | Repos: <code>ciencuadras-monorepo-mf</code> (Nx + Module Federation) y <code>ciencuadras-portal-frontend</code> (Angular 14 + Scully)</p>
+
+<!-- RESUMEN EJECUTIVO -->
+<div style="background:#fef3c7; border-left: 4px solid #f59e0b; border-radius:8px; padding:1rem 1.5rem; margin-bottom:2rem;">
+  <p style="font-weight:700; color:#92400e; margin:0 0 0.75rem;">4 acciones priorizadas para alcanzar Score 80+ en Mobile y Desktop</p>
+  <table style="width:100%; font-size:0.8rem; border-collapse:collapse;">
+    <tr style="border-bottom:1px solid #fde68a;"><td style="padding:6px 8px; font-weight:700;">P0</td><td style="padding:6px 8px;">Galeria de imagenes en detalle</td><td style="padding:6px 8px; color:#991b1b;">LCP 14s &rarr; 2.5s</td><td style="padding:6px 8px;">+25pts</td></tr>
+    <tr style="border-bottom:1px solid #fde68a;"><td style="padding:6px 8px; font-weight:700;">P1</td><td style="padding:6px 8px;">Reducir bundle JS del shell</td><td style="padding:6px 8px; color:#991b1b;">TBT 720ms &rarr; 200ms</td><td style="padding:6px 8px;">+15pts</td></tr>
+    <tr style="border-bottom:1px solid #fde68a;"><td style="padding:6px 8px; font-weight:700;">P2</td><td style="padding:6px 8px;">Estabilizar layout mobile</td><td style="padding:6px 8px; color:#991b1b;">CLS 0.106 &rarr; 0.1</td><td style="padding:6px 8px;">+5pts</td></tr>
+    <tr><td style="padding:6px 8px; font-weight:700;">P3</td><td style="padding:6px 8px;">Carga inicial Home</td><td style="padding:6px 8px; color:#991b1b;">LCP 9s &rarr; 4s</td><td style="padding:6px 8px;">+15pts</td></tr>
+  </table>
+</div>
+
+<!-- P0 -->
+<div style="background:#fff; border:1px solid #e5e7eb; border-radius:8px; padding:1.5rem; margin-bottom:1.5rem;">
+  <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem;">
+    <span style="background:#fee2e2; color:#991b1b; font-weight:700; padding:2px 10px; border-radius:9999px; font-size:0.75rem;">P0 &mdash; Critico</span>
+    <span style="font-weight:700; color:#00273d;">Optimizar galeria de imagenes en detalle de inmueble</span>
+  </div>
+  <p style="font-size:0.8rem; color:#4b5563; font-style:italic; margin:0 0 1rem; border-left:3px solid #3e98cc; padding-left:0.75rem;">Las fotos del inmueble tardan mas de 13 segundos en aparecer porque se descargan todas a la vez en lugar de una por una.</p>
+  <table style="width:100%; font-size:0.8rem; margin-bottom:1rem; border-collapse:collapse;">
+    <tr><td style="padding:4px 0; color:#6b7280; width:100px;">Metrica:</td><td><strong>LCP Mobile</strong> (Largest Contentful Paint)</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Actual:</td><td style="color:#991b1b; font-weight:600;">13.6s promedio en detalles</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Objetivo:</td><td style="color:#065f46; font-weight:600;">&le; 2.5s</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Repo:</td><td><code>ciencuadras-monorepo-mf</code> &rarr; <code>ciencuadras/apps/detail/</code></td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Causa:</td><td>El microfrontend <code>detail</code> usa <code>swiper</code> (shared via Module Federation) pero las imagenes no tienen <code>loading="lazy"</code> ni <code>fetchpriority</code>. Todas se descargan al montar el componente.</td></tr>
+  </table>
+  <p style="font-weight:600; font-size:0.85rem; color:#00273d; margin:0 0 0.5rem;">Acciones concretas:</p>
+  <ol style="font-size:0.8rem; padding-left:1.25rem; margin:0;">
+    <li style="margin-bottom:0.5rem;"><strong>Lazy load en Swiper:</strong> En el componente de galeria dentro de <code>apps/detail/</code>, configurar Swiper con <code>lazy: { loadPrevNext: true, loadPrevNextAmount: 1 }</code>. Solo la primera imagen se carga inmediatamente.<br><span style="color:#6b7280; font-size:0.75rem;">Archivo: <code>apps/detail/src/app/components/gallery/</code></span></li>
+    <li style="margin-bottom:0.5rem;"><strong>Primera imagen con prioridad maxima:</strong> Agregar <code>fetchpriority="high"</code> y <code>loading="eager"</code> al primer slide. El resto con <code>loading="lazy"</code>.<br><span style="color:#6b7280; font-size:0.75rem;">Impacto: LCP baja de 13s a ~5s solo con esto.</span></li>
+    <li style="margin-bottom:0.5rem;"><strong>Formato WebP con fallback:</strong> Configurar el CDN (CloudFront + <code>ciencuadras-imagehandler-lambda</code>) para servir WebP automaticamente via header <code>Accept</code>.<br><span style="color:#6b7280; font-size:0.75rem;">Impacto: -40% peso de imagenes sin cambio visual.</span></li>
+    <li style="margin-bottom:0.5rem;"><strong>Dimensiones fijas en img:</strong> Agregar <code>width="800" height="600"</code> a todas las <code>&lt;img&gt;</code> del carrusel para evitar layout shift mientras carga.</li>
+  </ol>
+</div>
+
+<!-- P1 -->
+<div style="background:#fff; border:1px solid #e5e7eb; border-radius:8px; padding:1.5rem; margin-bottom:1.5rem;">
+  <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem;">
+    <span style="background:#fef3c7; color:#92400e; font-weight:700; padding:2px 10px; border-radius:9999px; font-size:0.75rem;">P1 &mdash; Alto</span>
+    <span style="font-weight:700; color:#00273d;">Reducir JavaScript bloqueante del shell y shared deps</span>
+  </div>
+  <p style="font-size:0.8rem; color:#4b5563; font-style:italic; margin:0 0 1rem; border-left:3px solid #3e98cc; padding-left:0.75rem;">La pagina se congela al cargar porque el navegador descarga codigo JavaScript que no necesita en ese momento.</p>
+  <table style="width:100%; font-size:0.8rem; margin-bottom:1rem; border-collapse:collapse;">
+    <tr><td style="padding:4px 0; color:#6b7280; width:100px;">Metrica:</td><td><strong>TBT</strong> (Total Blocking Time)</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Actual:</td><td style="color:#991b1b; font-weight:600;">720ms mobile / 504ms desktop (hasta 2.2s en detalle desktop)</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Objetivo:</td><td style="color:#065f46; font-weight:600;">&le; 200ms</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Repo:</td><td><code>ciencuadras-monorepo-mf</code> &rarr; <code>ciencuadras/apps/shell/</code> y <code>webpack-shared-versions.js</code></td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Causa:</td><td>Module Federation comparte <code>@angular/google-maps</code>, <code>swiper</code>, <code>crypto-js</code> y <code>@angular-slider/ngx-slider</code> como singletons cargados al inicio &mdash; aunque no todas las rutas los necesitan.</td></tr>
+  </table>
+  <p style="font-weight:600; font-size:0.85rem; color:#00273d; margin:0 0 0.5rem;">Acciones concretas:</p>
+  <ol style="font-size:0.8rem; padding-left:1.25rem; margin:0;">
+    <li style="margin-bottom:0.5rem;"><strong>Remover <code>@angular/google-maps</code> de shared deps:</strong> En <code>webpack-shared-versions.js</code>, quitar Google Maps del array <code>standardAngularDeps</code>. Cada MF que lo necesite lo carga en su propio bundle lazy.<br><span style="color:#6b7280; font-size:0.75rem;">Archivo: <code>ciencuadras/webpack-shared-versions.js</code> linea ~62</span></li>
+    <li style="margin-bottom:0.5rem;"><strong>Remover <code>crypto-js</code> de shared:</strong> Solo lo usa auth. Moverlo al bundle del MF que lo necesita.<br><span style="color:#6b7280; font-size:0.75rem;">Ahorro: ~50KB del bundle inicial.</span></li>
+    <li style="margin-bottom:0.5rem;"><strong>Diferir third-party scripts:</strong> En <code>apps/shell/</code>, mover la inicializacion de GTM, Datadog RUM y chat widgets al evento <code>onLoad</code> o con <code>setTimeout(3000)</code>.</li>
+    <li style="margin-bottom:0.5rem;"><strong>Revisar <code>criticalPenthouse.js</code>:</strong> El archivo existe pero puede no estar generando Critical CSS correctamente. Verificar que la tarea Gulp ejecuta y produce CSS inline.<br><span style="color:#6b7280; font-size:0.75rem;">Archivo: <code>ciencuadras/criticalPenthouse.js</code> + <code>gulpfile.js</code></span></li>
+  </ol>
+</div>
+
+<!-- P2 -->
+<div style="background:#fff; border:1px solid #e5e7eb; border-radius:8px; padding:1.5rem; margin-bottom:1.5rem;">
+  <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem;">
+    <span style="background:#fef3c7; color:#92400e; font-weight:700; padding:2px 10px; border-radius:9999px; font-size:0.75rem;">P2 &mdash; Medio</span>
+    <span style="font-weight:700; color:#00273d;">Estabilizar layout en mobile (eliminar saltos visuales)</span>
+  </div>
+  <p style="font-size:0.8rem; color:#4b5563; font-style:italic; margin:0 0 1rem; border-left:3px solid #3e98cc; padding-left:0.75rem;">Al cargar la pagina en celular, los elementos se mueven y generan una experiencia inestable que confunde al usuario.</p>
+  <table style="width:100%; font-size:0.8rem; margin-bottom:1rem; border-collapse:collapse;">
+    <tr><td style="padding:4px 0; color:#6b7280; width:100px;">Metrica:</td><td><strong>CLS</strong> (Cumulative Layout Shift)</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Actual:</td><td style="color:#991b1b; font-weight:600;">0.106 mobile (supera umbral 0.1)</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Objetivo:</td><td style="color:#065f46; font-weight:600;">&le; 0.1</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Repo:</td><td><code>ciencuadras-monorepo-mf</code> &rarr; <code>apps/detail/</code> y <code>apps/result/</code></td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Causa:</td><td>Imagenes sin dimensiones definidas + tipografias web sin fallback + MFs que se montan desplazando contenido existente.</td></tr>
+  </table>
+  <p style="font-weight:600; font-size:0.85rem; color:#00273d; margin:0 0 0.5rem;">Acciones concretas:</p>
+  <ol style="font-size:0.8rem; padding-left:1.25rem; margin:0;">
+    <li style="margin-bottom:0.5rem;"><strong>Aspect ratio en imagenes:</strong> En <code>apps/detail/</code> y <code>apps/result/</code>, agregar <code>width</code>/<code>height</code> a todas las <code>&lt;img&gt;</code> + CSS <code>aspect-ratio: 4/3; object-fit: cover;</code></li>
+    <li style="margin-bottom:0.5rem;"><strong>Placeholder del MF antes de montar:</strong> En el shell, reservar el espacio del microfrontend con <code>min-height</code> antes de que se cargue via Module Federation.</li>
+    <li style="margin-bottom:0.5rem;"><strong><code>font-display: swap</code></strong> en la carga de tipografias (verificar en <code>apps/shell/</code> styles globales).</li>
+    <li style="margin-bottom:0.5rem;"><strong>Configurar Nginx</strong> (<code>default.conf</code>) con headers de cache para fuentes: <code>Cache-Control: public, max-age=31536000</code>.</li>
+  </ol>
+</div>
+
+<!-- P3 -->
+<div style="background:#fff; border:1px solid #e5e7eb; border-radius:8px; padding:1.5rem; margin-bottom:1.5rem;">
+  <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.5rem;">
+    <span style="background:#dbeafe; color:#1e40af; font-weight:700; padding:2px 10px; border-radius:9999px; font-size:0.75rem;">P3 &mdash; Mejora</span>
+    <span style="font-weight:700; color:#00273d;">Mejorar carga inicial del Home</span>
+  </div>
+  <p style="font-size:0.8rem; color:#4b5563; font-style:italic; margin:0 0 1rem; border-left:3px solid #3e98cc; padding-left:0.75rem;">La pagina principal tarda 9 segundos en mostrar contenido util porque descarga demasiado antes de pintar algo en pantalla.</p>
+  <table style="width:100%; font-size:0.8rem; margin-bottom:1rem; border-collapse:collapse;">
+    <tr><td style="padding:4px 0; color:#6b7280; width:100px;">Metrica:</td><td><strong>LCP Home Mobile</strong></td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Actual:</td><td style="color:#991b1b; font-weight:600;">9.1s</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Objetivo:</td><td style="color:#065f46; font-weight:600;">&le; 2.5s</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Repo:</td><td><code>ciencuadras-monorepo-mf</code> &rarr; <code>apps/shell/</code> + <code>ciencuadras-portal-frontend</code> (Scully)</td></tr>
+    <tr><td style="padding:4px 0; color:#6b7280;">Causa:</td><td>Hero image sin preload + Critical CSS (<code>criticalPenthouse.js</code>) aparentemente no aplicado + shell carga todos los shared deps antes de renderizar.</td></tr>
+  </table>
+  <p style="font-weight:600; font-size:0.85rem; color:#00273d; margin:0 0 0.5rem;">Acciones concretas:</p>
+  <ol style="font-size:0.8rem; padding-left:1.25rem; margin:0;">
+    <li style="margin-bottom:0.5rem;"><strong>Preload hero image:</strong> En el <code>index.html</code> del shell agregar <code>&lt;link rel="preload" as="image" href="URL_HERO"&gt;</code>.</li>
+    <li style="margin-bottom:0.5rem;"><strong>Verificar Critical CSS:</strong> Ejecutar <code>criticalPenthouse.js</code> y confirmar que genera CSS inline en el build de produccion. Si no, corregir rutas en <code>gulpfile.js</code>.</li>
+    <li style="margin-bottom:0.5rem;"><strong>Preconnect al CDN:</strong> <code>&lt;link rel="preconnect" href="https://multimedia.dvisor.io"&gt;</code></li>
+    <li style="margin-bottom:0.5rem;"><strong>Nginx compression:</strong> Verificar que <code>default.conf</code> tiene <code>gzip on</code> para JS/CSS y <code>brotli</code> si es posible.</li>
+  </ol>
+</div>
+
+<!-- NOTA -->
+<div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px; padding:1rem 1.5rem; margin-top:2rem;">
+  <p style="font-weight:600; color:#065f46; margin:0 0 0.25rem;">Proxima medicion automatica: manana 8:00 AM COT</p>
+  <p style="font-size:0.75rem; color:#6b7280; margin:0;">Repos analizados: <code>ciencuadras-monorepo-mf</code> (Nx, Module Federation, 12 microfrontends) + <code>ciencuadras-portal-frontend</code> (Angular 14 + Scully)</p>
+</div>
+
+</div>
