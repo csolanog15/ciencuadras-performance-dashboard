@@ -9,9 +9,6 @@
     { "name": "Rendimiento (detalle inmueble arriendo)", "current": 57, "target": 80, "unit": "score" },
     { "name": "LCP - Detalle Inmueble Arriendo", "current": "4.1s", "target": "< 2.5 seg", "unit": "s" },
     { "name": "CLS - Detalle Inmueble Arriendo", "current": 0.001, "target": "< 0.1", "unit": "" },
-    { "name": "TBT - Detalle Inmueble Arriendo", "current": "1145 ms", "target": "< 200 ms", "unit": "ms" },
-    { "name": "SLO (confiabilidad Datadog)", "current": 96.1, "target": 90, "unit": "%" },
-    { "name": "INS Portal", "current": 37, "target": 80, "unit": "score" },
-    { "name": "Leads Portal", "current": 195171, "target": 375740, "unit": "leads" }
+    { "name": "TBT - Detalle Inmueble Arriendo", "current": "1145 ms", "target": "< 200 ms", "unit": "ms" }
   ]
 }
