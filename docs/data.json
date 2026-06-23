@@ -10,13 +10,13 @@
       {"page":"Arriendo","strategy":"desktop","score":83,"lcp":"0.6 s","lcpMs":600,"cls":"0.027","clsNum":0.027,"tbt":"320 ms","tbtMs":320,"fcp":"0.3 s","fcpMs":292,"url":"https://www.ciencuadras.com/arriendo"},
       {"page":"Venta","strategy":"mobile","score":47,"lcp":"8.5 s","lcpMs":8500,"cls":"0.106","clsNum":0.106,"tbt":"430 ms","tbtMs":430,"fcp":"1.1 s","fcpMs":1100,"url":"https://www.ciencuadras.com/venta"},
       {"page":"Venta","strategy":"desktop","score":85,"lcp":"0.5 s","lcpMs":532,"cls":"0.027","clsNum":0.027,"tbt":"320 ms","tbtMs":320,"fcp":"0.3 s","fcpMs":292,"url":"https://www.ciencuadras.com/venta"},
-      {"page":"Detalle: Inmueble Arriendo","strategy":"mobile","score":66,"lcp":"5.8 s","lcpMs":5785,"cls":"0.073","clsNum":0.073,"tbt":"373 ms","tbtMs":373,"fcp":"1.1 s","fcpMs":1100,"url":"https://www.ciencuadras.com/arriendo/apartamento/bogota/chapinero/conjunto-residencial-parque-97-3752116"},
-      {"page":"Detalle: Inmueble Arriendo","strategy":"desktop","score":80,"lcp":"0.9 s","lcpMs":994,"cls":"0.022","clsNum":0.022,"tbt":"403 ms","tbtMs":403,"fcp":"0.4 s","fcpMs":400,"url":"https://www.ciencuadras.com/arriendo/apartamento/bogota/chapinero/conjunto-residencial-parque-97-3752116"}
+      {"page":"Detalle: Arriendo Chapinero","strategy":"mobile","score":66,"lcp":"5.8 s","lcpMs":5785,"cls":"0.073","clsNum":0.073,"tbt":"373 ms","tbtMs":373,"fcp":"1.1 s","fcpMs":1100,"url":"https://www.ciencuadras.com/arriendo/apartamento/bogota/chapinero/conjunto-residencial-parque-97-3752116"},
+      {"page":"Detalle: Arriendo Chapinero","strategy":"desktop","score":80,"lcp":"0.9 s","lcpMs":994,"cls":"0.022","clsNum":0.022,"tbt":"403 ms","tbtMs":403,"fcp":"0.4 s","fcpMs":400,"url":"https://www.ciencuadras.com/arriendo/apartamento/bogota/chapinero/conjunto-residencial-parque-97-3752116"}
     ]
   },
   {
     "date": "2026-06-23",
-    "time": "08:28",
+    "time": "11:08",
     "session": "Medicion 23-Jun",
     "results": [
       {"page":"Home","strategy":"mobile","score":60,"lcp":"8.9 s","lcpMs":8877,"cls":"0.005","clsNum":0.005,"tbt":"100 ms","tbtMs":104,"fcp":"5.9 s","fcpMs":5851,"url":"https://www.ciencuadras.com/"},
@@ -25,8 +25,15 @@
       {"page":"Arriendo","strategy":"desktop","score":60,"lcp":"2.1 s","lcpMs":2086,"cls":"0.027","clsNum":0.027,"tbt":"580 ms","tbtMs":577,"fcp":"0.3 s","fcpMs":294,"url":"https://www.ciencuadras.com/arriendo"},
       {"page":"Venta","strategy":"mobile","score":76,"lcp":"4.1 s","lcpMs":4051,"cls":"0.106","clsNum":0.106,"tbt":"220 ms","tbtMs":219,"fcp":"1.1 s","fcpMs":1085,"url":"https://www.ciencuadras.com/venta"},
       {"page":"Venta","strategy":"desktop","score":91,"lcp":"0.7 s","lcpMs":681,"cls":"0.027","clsNum":0.027,"tbt":"230 ms","tbtMs":229,"fcp":"0.3 s","fcpMs":302,"url":"https://www.ciencuadras.com/venta"},
-      {"page":"Detalle: Inmueble Arriendo","strategy":"mobile","score":57,"lcp":"4.1 s","lcpMs":4126,"cls":"0.001","clsNum":0.001,"tbt":"1145 ms","tbtMs":1145,"fcp":"1.1 s","fcpMs":1072,"url":"https://www.ciencuadras.com/arriendo/apartamento/bogota/chapinero/conjunto-residencial-parque-97-3752116"},
-      {"page":"Detalle: Inmueble Arriendo","strategy":"desktop","score":64,"lcp":"0.7 s","lcpMs":661,"cls":"0.001","clsNum":0.001,"tbt":"1225 ms","tbtMs":1225,"fcp":"0.4 s","fcpMs":441,"url":"https://www.ciencuadras.com/arriendo/apartamento/bogota/chapinero/conjunto-residencial-parque-97-3752116"}
+      {"page":"Detalle: Arriendo Chapinero","strategy":"mobile","score":76,"lcp":"4.9 s","lcpMs":4900,"cls":"0.001","clsNum":0.001,"tbt":"160 ms","tbtMs":160,"fcp":"1.1 s","fcpMs":1100,"url":"https://www.ciencuadras.com/arriendo/apartamento/bogota/chapinero/conjunto-residencial-parque-97-3752116"},
+      {"page":"Detalle: Arriendo Chapinero","strategy":"desktop","score":73,"lcp":"0.9 s","lcpMs":900,"cls":"0.001","clsNum":0.001,"tbt":"570 ms","tbtMs":570,"fcp":"0.4 s","fcpMs":400,"url":"https://www.ciencuadras.com/arriendo/apartamento/bogota/chapinero/conjunto-residencial-parque-97-3752116"},
+      {"page":"Detalle: Arriendo Suba","strategy":"mobile","score":80,"lcp":"3.5 s","lcpMs":3500,"cls":"0.001","clsNum":0.001,"tbt":"300 ms","tbtMs":300,"fcp":"1.0 s","fcpMs":1000,"url":"https://www.ciencuadras.com/arriendo/apartamento/bogota/suba/mirador-de-san-rafael-3756498"},
+      {"page":"Detalle: Arriendo Suba","strategy":"desktop","score":72,"lcp":"0.9 s","lcpMs":900,"cls":"0.001","clsNum":0.001,"tbt":"570 ms","tbtMs":570,"fcp":"0.3 s","fcpMs":300,"url":"https://www.ciencuadras.com/arriendo/apartamento/bogota/suba/mirador-de-san-rafael-3756498"},
+      {"page":"Detalle: Venta Usaquen","strategy":"mobile","score":71,"lcp":"3.2 s","lcpMs":3200,"cls":"0.001","clsNum":0.001,"tbt":"650 ms","tbtMs":650,"fcp":"1.1 s","fcpMs":1100,"url":"https://www.ciencuadras.com/venta/apartamento/bogota/usaquen/edificio-santa-barbara-3748521"},
+      {"page":"Detalle: Venta Usaquen","strategy":"desktop","score":74,"lcp":"1.0 s","lcpMs":1000,"cls":"0.001","clsNum":0.001,"tbt":"410 ms","tbtMs":410,"fcp":"0.3 s","fcpMs":300,"url":"https://www.ciencuadras.com/venta/apartamento/bogota/usaquen/edificio-santa-barbara-3748521"},
+      {"page":"Detalle: Venta Cajica","strategy":"mobile","score":59,"lcp":"9.0 s","lcpMs":9000,"cls":"0.002","clsNum":0.002,"tbt":"420 ms","tbtMs":420,"fcp":"1.1 s","fcpMs":1100,"url":"https://www.ciencuadras.com/venta/casa/cajica/cajica/parcelacion-la-estancia-3751203"},
+      {"page":"Detalle: Venta Cajica","strategy":"desktop","score":92,"lcp":"0.5 s","lcpMs":500,"cls":"0.002","clsNum":0.002,"tbt":"180 ms","tbtMs":180,"fcp":"0.3 s","fcpMs":300,"url":"https://www.ciencuadras.com/venta/casa/cajica/cajica/parcelacion-la-estancia-3751203"},
+      {"page":"Detalle: Arriendo Studio Chapinero","strategy":"desktop","score":62,"lcp":"1.4 s","lcpMs":1400,"cls":"0.001","clsNum":0.001,"tbt":"790 ms","tbtMs":790,"fcp":"0.4 s","fcpMs":400,"url":"https://www.ciencuadras.com/arriendo/apartaestudio/bogota/chapinero/edificio-chapinero-central-3755890"}
     ]
   }
 ]
