@@ -197,7 +197,88 @@
     <div class="card p-6">
       <h3 class="text-sm font-semibold mb-4" style="color:#00273d;">Recomendaciones Tecnicas</h3>
       <div id="recsContent" class="prose prose-sm max-w-none text-gray-700">
-        <p class="text-gray-400 italic">Cargando recomendaciones...</p>
+
+        <!-- Recomendacion 1: P0 Critico -->
+        <div style="background:#ffffff; border:1px solid #e5e7eb; border-radius:8px; padding:1.25rem; margin-bottom:1.25rem;">
+          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; flex-wrap:wrap;">
+            <span style="display:inline-block; background:#fee2e2; color:#991b1b; font-size:0.7rem; font-weight:700; padding:2px 10px; border-radius:9999px;">P0 Critico</span>
+            <span style="font-size:0.95rem; font-weight:700; color:#00273d;">Cargar fotos del inmueble una por una</span>
+            <span style="display:inline-block; background:#e0f2fe; color:#3e98cc; font-size:0.7rem; font-weight:600; padding:2px 10px; border-radius:9999px;">Mejora: LCP (de 14s a 2.5s)</span>
+          </div>
+          <div style="border-left:3px solid #3e98cc; padding-left:0.75rem; margin:0.75rem 0;">
+            <p style="font-style:italic; color:#333; font-size:0.85rem; margin:0;">Las fotos del inmueble tardan 14 segundos en aparecer porque se descargan todas juntas. Hay que cargar solo la primera foto rapido y las demas conforme el usuario las necesite.</p>
+          </div>
+          <ol style="font-size:0.8rem; color:#374151; padding-left:1.25rem; margin:0.5rem 0 0 0; line-height:1.7;">
+            <li>En el componente de galeria (apps/detail/), activar lazy loading en Swiper con la opcion loadPrevNext.</li>
+            <li>Marcar la primera imagen con fetchpriority="high" y loading="eager". Las demas con loading="lazy".</li>
+            <li>Configurar el CDN (CloudFront) para servir imagenes en formato WebP automaticamente.</li>
+            <li>Agregar width y height a todas las etiquetas img del carrusel.</li>
+          </ol>
+        </div>
+
+        <!-- Separador -->
+        <hr style="border:none; border-top:1px solid #e5e7eb; margin:1.25rem 0;">
+
+        <!-- Recomendacion 2: P1 Alto -->
+        <div style="background:#ffffff; border:1px solid #e5e7eb; border-radius:8px; padding:1.25rem; margin-bottom:1.25rem;">
+          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; flex-wrap:wrap;">
+            <span style="display:inline-block; background:#fef3c7; color:#92400e; font-size:0.7rem; font-weight:700; padding:2px 10px; border-radius:9999px;">P1 Alto</span>
+            <span style="font-size:0.95rem; font-weight:700; color:#00273d;">Quitar codigo JavaScript que no se usa al inicio</span>
+            <span style="display:inline-block; background:#e0f2fe; color:#3e98cc; font-size:0.7rem; font-weight:600; padding:2px 10px; border-radius:9999px;">Mejora: TBT (de 720ms a 200ms)</span>
+          </div>
+          <div style="border-left:3px solid #3e98cc; padding-left:0.75rem; margin:0.75rem 0;">
+            <p style="font-style:italic; color:#333; font-size:0.85rem; margin:0;">La pagina se congela 720ms porque descarga librerias que no necesita al inicio (mapas, encriptacion). Hay que cargarlas solo cuando el usuario las necesite.</p>
+          </div>
+          <ol style="font-size:0.8rem; color:#374151; padding-left:1.25rem; margin:0.5rem 0 0 0; line-height:1.7;">
+            <li>Quitar @angular/google-maps y crypto-js del archivo webpack-shared-versions.js (linea 62).</li>
+            <li>Cargar Google Maps solo cuando el usuario abre la seccion de mapa (lazy load por ruta).</li>
+            <li>Diferir la carga de GTM, Datadog y chat widgets al evento onLoad (3 segundos despues).</li>
+            <li>Verificar que criticalPenthouse.js esta generando CSS critico correctamente en el build de produccion.</li>
+          </ol>
+        </div>
+
+        <!-- Separador -->
+        <hr style="border:none; border-top:1px solid #e5e7eb; margin:1.25rem 0;">
+
+        <!-- Recomendacion 3: P2 Medio -->
+        <div style="background:#ffffff; border:1px solid #e5e7eb; border-radius:8px; padding:1.25rem; margin-bottom:1.25rem;">
+          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; flex-wrap:wrap;">
+            <span style="display:inline-block; background:#fef3c7; color:#92400e; font-size:0.7rem; font-weight:700; padding:2px 10px; border-radius:9999px;">P2 Medio</span>
+            <span style="font-size:0.95rem; font-weight:700; color:#00273d;">Evitar que los elementos se muevan al cargar</span>
+            <span style="display:inline-block; background:#e0f2fe; color:#3e98cc; font-size:0.7rem; font-weight:600; padding:2px 10px; border-radius:9999px;">Mejora: CLS (de 0.106 a menos de 0.1)</span>
+          </div>
+          <div style="border-left:3px solid #3e98cc; padding-left:0.75rem; margin:0.75rem 0;">
+            <p style="font-style:italic; color:#333; font-size:0.85rem; margin:0;">En celular, las imagenes y los microfrontends aparecen sin espacio reservado, causando que todo se mueva. Hay que reservar el espacio antes de que cargue el contenido.</p>
+          </div>
+          <ol style="font-size:0.8rem; color:#374151; padding-left:1.25rem; margin:0.5rem 0 0 0; line-height:1.7;">
+            <li>Agregar width y height a todas las imagenes + CSS aspect-ratio: 4/3.</li>
+            <li>Reservar min-height en el shell antes de montar cada microfrontend.</li>
+            <li>Agregar font-display: swap a las tipografias para evitar parpadeo de texto.</li>
+            <li>Configurar cache de fuentes en Nginx (default.conf) con max-age 1 anio.</li>
+          </ol>
+        </div>
+
+        <!-- Separador -->
+        <hr style="border:none; border-top:1px solid #e5e7eb; margin:1.25rem 0;">
+
+        <!-- Recomendacion 4: P3 Mejora -->
+        <div style="background:#ffffff; border:1px solid #e5e7eb; border-radius:8px; padding:1.25rem;">
+          <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.5rem; flex-wrap:wrap;">
+            <span style="display:inline-block; background:#dbeafe; color:#1e40af; font-size:0.7rem; font-weight:700; padding:2px 10px; border-radius:9999px;">P3 Mejora</span>
+            <span style="font-size:0.95rem; font-weight:700; color:#00273d;">Acelerar la primera carga del Home</span>
+            <span style="display:inline-block; background:#e0f2fe; color:#3e98cc; font-size:0.7rem; font-weight:600; padding:2px 10px; border-radius:9999px;">Mejora: LCP Home (de 9s a 4s)</span>
+          </div>
+          <div style="border-left:3px solid #3e98cc; padding-left:0.75rem; margin:0.75rem 0;">
+            <p style="font-style:italic; color:#333; font-size:0.85rem; margin:0;">El home tarda 9 segundos en mostrar la imagen principal porque descarga demasiado codigo antes de pintarla. Hay que priorizar lo que el usuario ve primero.</p>
+          </div>
+          <ol style="font-size:0.8rem; color:#374151; padding-left:1.25rem; margin:0.5rem 0 0 0; line-height:1.7;">
+            <li>Agregar link preload para la imagen hero en el index.html del shell.</li>
+            <li>Verificar que criticalPenthouse.js genera CSS inline para el above-the-fold.</li>
+            <li>Agregar preconnect al CDN de imagenes (multimedia.dvisor.io).</li>
+            <li>Activar compression gzip/brotli en Nginx para JS y CSS.</li>
+          </ol>
+        </div>
+
       </div>
     </div>
   </section>
@@ -451,47 +532,9 @@
     });
   }
 
-  function loadRecs() {
-    fetch('data.json').then(function(res){return res.json();}).then(function(data) {
-      var latest = data[data.length - 1];
-      var results = latest.results || [];
-      var sampP = results.filter(function(r){return r.page.startsWith('Detalle:');});
-      var html = '<h4 class="font-semibold text-gray-800 mb-3">Recomendaciones — ' + latest.date + '</h4>';
-      html += '<div class="space-y-4">';
-      var mobSamp = sampP.filter(function(r){return r.strategy==='mobile';});
-      var dskSamp = sampP.filter(function(r){return r.strategy==='desktop';});
-      var avgLcpMob = mobSamp.length ? Math.round(mobSamp.reduce(function(a,r){return a+r.lcpMs;},0)/mobSamp.length) : 0;
-      var avgTbtMob = mobSamp.length ? Math.round(mobSamp.reduce(function(a,r){return a+r.tbtMs;},0)/mobSamp.length) : 0;
-      var avgTbtDsk = dskSamp.length ? Math.round(dskSamp.reduce(function(a,r){return a+r.tbtMs;},0)/dskSamp.length) : 0;
-      var avgScoreMob = mobSamp.length ? Math.round(mobSamp.reduce(function(a,r){return a+r.score;},0)/mobSamp.length) : 0;
-      if (avgLcpMob > 2500) {
-        html += '<div class="p-3 bg-red-50 border-l-4 border-red-400 rounded"><p class="font-semibold text-red-800">LCP Mobile: ' + avgLcpMob + 'ms (objetivo: 2500ms)</p><ul class="text-xs text-gray-700 mt-1 list-disc ml-4"><li>Preload imagen hero, formato WebP/AVIF</li><li>SSR o pre-rendering para above-the-fold</li><li>Reducir CSS critico bloqueante</li><li>CDN con edge caching para galeria</li></ul></div>';
-      }
-      if (avgTbtMob > 200) {
-        html += '<div class="p-3 bg-amber-50 border-l-4 border-amber-400 rounded"><p class="font-semibold text-amber-800">TBT Mobile: ' + avgTbtMob + 'ms (objetivo: 200ms)</p><ul class="text-xs text-gray-700 mt-1 list-disc ml-4"><li>Code-splitting: solo JS necesario above-the-fold</li><li>Diferir third-party scripts (analytics, chat)</li><li>Eliminar imports Angular no usados</li><li>Web workers para procesamiento pesado</li></ul></div>';
-      }
-      if (avgTbtDsk > 200) {
-        html += '<div class="p-3 bg-amber-50 border-l-4 border-amber-400 rounded"><p class="font-semibold text-amber-800">TBT Desktop: ' + avgTbtDsk + 'ms (objetivo: 200ms)</p><ul class="text-xs text-gray-700 mt-1 list-disc ml-4"><li>Auditar third-party con DevTools Performance</li><li>Lazy-load mapa e inmuebles similares</li><li>Tree-shaking agresivo en build de produccion</li></ul></div>';
-      }
-      if (avgScoreMob < 80) {
-        html += '<div class="p-3 bg-blue-50 border-l-4 border-blue-400 rounded"><p class="font-semibold text-blue-800">Score mobile: ' + avgScoreMob + ' (objetivo: 80+)</p><ul class="text-xs text-gray-700 mt-1 list-disc ml-4"><li>Priorizar LCP y TBT — mayores detractores</li><li>CLS OK — no requiere accion</li><li>Pre-carga para detalles frecuentes</li></ul></div>';
-      }
-      var mainMob = results.filter(function(r){return !r.page.startsWith('Detalle:')&&r.strategy==='mobile';});
-      var worstMain = mainMob.sort(function(a,b){return a.score-b.score;})[0];
-      if (worstMain && worstMain.score < 70) {
-        html += '<div class="p-3 bg-purple-50 border-l-4 border-purple-400 rounded"><p class="font-semibold text-purple-800">Pagina critica: ' + worstMain.page + ' (score ' + worstMain.score + ')</p><ul class="text-xs text-gray-700 mt-1 list-disc ml-4"><li>LCP: ' + worstMain.lcp + '</li><li>TBT: ' + worstMain.tbt + '</li></ul></div>';
-      }
-      html += '</div>';
-      document.getElementById('recsContent').innerHTML = html;
-    }).catch(function(e) {
-      document.getElementById('recsContent').innerHTML = '<p class="text-red-400">Error: ' + e.message + '</p>';
-    });
-  }
-
-  // Inicializacion: cargar targets primero, luego dashboard y recs
+  // Inicializacion: cargar targets primero, luego dashboard
   loadTargets().then(function() {
     loadDashboard();
-    loadRecs();
     loadTrends();
   });
 
