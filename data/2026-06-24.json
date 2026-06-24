@@ -1,0 +1,19 @@
+{
+  "date": "2026-06-24",
+  "time": "10:15",
+  "session": "Medicion 24-Jun",
+  "results": [
+    {"url": "https://www.ciencuadras.com/", "page": "Home", "strategy": "mobile", "score": 58, "lcp": "8.9 s", "lcpMs": 8900, "cls": "0.004", "clsNum": 0.004, "tbt": "130 ms", "tbtMs": 130, "fcp": "6.5 s", "fcpMs": 6500},
+    {"url": "https://www.ciencuadras.com/", "page": "Home", "strategy": "desktop", "score": 70, "lcp": "1.8 s", "lcpMs": 1800, "cls": "0.011", "clsNum": 0.011, "tbt": "370 ms", "tbtMs": 370, "fcp": "0.8 s", "fcpMs": 800},
+    {"url": "https://www.ciencuadras.com/arriendo", "page": "Arriendo", "strategy": "mobile", "score": 81, "lcp": "3.5 s", "lcpMs": 3500, "cls": "0.107", "clsNum": 0.107, "tbt": "280 ms", "tbtMs": 280, "fcp": "1.1 s", "fcpMs": 1100},
+    {"url": "https://www.ciencuadras.com/arriendo", "page": "Arriendo", "strategy": "desktop", "score": 83, "lcp": "0.7 s", "lcpMs": 700, "cls": "0.027", "clsNum": 0.027, "tbt": "370 ms", "tbtMs": 370, "fcp": "0.4 s", "fcpMs": 400},
+    {"url": "https://www.ciencuadras.com/venta", "page": "Venta", "strategy": "mobile", "score": 44, "lcp": "7.6 s", "lcpMs": 7600, "cls": "0.106", "clsNum": 0.106, "tbt": "1180 ms", "tbtMs": 1180, "fcp": "1.1 s", "fcpMs": 1100},
+    {"url": "https://www.ciencuadras.com/venta", "page": "Venta", "strategy": "desktop", "score": 73, "lcp": "1.9 s", "lcpMs": 1900, "cls": "0.027", "clsNum": 0.027, "tbt": "390 ms", "tbtMs": 390, "fcp": "0.3 s", "fcpMs": 300},
+    {"url": "https://www.ciencuadras.com/inmueble/apartamento-en-arriendo-en-riomar-barranquilla-3639873", "page": "Detalle: Apto Arriendo Riomar, Barranquilla", "strategy": "mobile", "score": 61, "lcp": "13.5 s", "lcpMs": 13500, "cls": "0.106", "clsNum": 0.106, "tbt": "180 ms", "tbtMs": 180, "fcp": "0.9 s", "fcpMs": 900},
+    {"url": "https://www.ciencuadras.com/inmueble/apartamento-en-arriendo-en-riomar-barranquilla-3639873", "page": "Detalle: Apto Arriendo Riomar, Barranquilla", "strategy": "desktop", "score": 55, "lcp": "3.2 s", "lcpMs": 3200, "cls": "0.022", "clsNum": 0.022, "tbt": "500 ms", "tbtMs": 500, "fcp": "0.3 s", "fcpMs": 300},
+    {"url": "https://www.ciencuadras.com/inmueble/apartamento-en-venta-en-chapinero-bogota-5841092", "page": "Detalle: Apto Venta Chapinero, Bogota", "strategy": "mobile", "score": 48, "lcp": "13.5 s", "lcpMs": 13500, "cls": "0.106", "clsNum": 0.106, "tbt": "630 ms", "tbtMs": 630, "fcp": "0.9 s", "fcpMs": 900},
+    {"url": "https://www.ciencuadras.com/inmueble/apartamento-en-venta-en-chapinero-bogota-5841092", "page": "Detalle: Apto Venta Chapinero, Bogota", "strategy": "desktop", "score": 48, "lcp": "3.1 s", "lcpMs": 3100, "cls": "0.022", "clsNum": 0.022, "tbt": "710 ms", "tbtMs": 710, "fcp": "0.3 s", "fcpMs": 300},
+    {"url": "https://www.ciencuadras.com/inmueble/casa-en-arriendo-en-envigado-medellin-4721856", "page": "Detalle: Casa Arriendo Envigado, Medellin", "strategy": "mobile", "score": 98, "lcp": "1.3 s", "lcpMs": 1300, "cls": "0", "clsNum": 0, "tbt": "160 ms", "tbtMs": 160, "fcp": "0.9 s", "fcpMs": 900},
+    {"url": "https://www.ciencuadras.com/inmueble/casa-en-arriendo-en-envigado-medellin-4721856", "page": "Detalle: Casa Arriendo Envigado, Medellin", "strategy": "desktop", "score": 100, "lcp": "0.6 s", "lcpMs": 600, "cls": "0", "clsNum": 0, "tbt": "10 ms", "tbtMs": 10, "fcp": "0.3 s", "fcpMs": 300}
+  ]
+}
