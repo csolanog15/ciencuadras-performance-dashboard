@@ -552,14 +552,14 @@
     new Chart(document.getElementById('chartSampleScore'),{type:'bar',data:{labels:labels,datasets:[{label:'Mobile',data:mP.map(function(r){return r.score||0;}),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(function(r){return r.score||0;}),backgroundColor:'#3e98cc'}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}},annotation:{annotations:getAnnotationLines('score')}},scales:{y:{min:0,max:100}}}});
     new Chart(document.getElementById('chartSampleLCP'),{type:'bar',data:{labels:labels,datasets:[{label:'Mobile',data:mP.map(function(r){return r.lcpMs||0;}),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(function(r){return r.lcpMs||0;}),backgroundColor:'#3e98cc'}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}},annotation:{annotations:getAnnotationLines('lcp')}},scales:{y:{beginAtZero:true}}}});
     new Chart(document.getElementById('chartSampleTBT'),{type:'bar',data:{labels:labels,datasets:[{label:'Mobile',data:mP.map(function(r){return r.tbtMs||0;}),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(function(r){return r.tbtMs||0;}),backgroundColor:'#3e98cc'}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}},annotation:{annotations:getAnnotationLines('tbt')}},scales:{y:{beginAtZero:true}}}});
-    new Chart(document.getElementById('chartSampleCLS'),{type:'bar',data:{labels:labels,datasets:[{label:'Mobile',data:mP.map(function(r){return r.clsNum||0;}),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(function(r){return r.clsNum||0;}),backgroundColor:'#3e98cc'}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}},annotation:{annotations:getAnnotationLines('cls')}},scales:{y:{beginAtZero:true}}}});
+    new Chart(document.getElementById('chartSampleCLS'),{type:'bar',data:{labels:labels,datasets:[{label:'Mobile',data:mP.map(function(r){return r.clsNum||0;}),backgroundColor:'#fbbf24'},{label:'Desktop',data:dP.map(function(r){return r.clsNum||0;}),backgroundColor:'#3e98cc'}]},options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:10}}},annotation:{annotations:{target:{type:'line',yMin:0.1,yMax:0.1,borderColor:'#3e98cc',borderWidth:1.5,borderDash:[5,5],label:{content:'Objetivo 0.1',display:true,position:'start',font:{size:9},color:'#3e98cc'}}}}},scales:{y:{beginAtZero:true,max:0.12}}}});
   }
 
   function loadTrends() {
     fetch('data.json').then(function(res){return res.json();}).then(function(data) {
       if (data.length < 2) return;
       var dates = data.map(function(d){return d.date;});
-      var pages = ['Home','Arriendo','Venta','Detalle: Inmueble Arriendo'];
+      var pages = ['Home','Arriendo','Venta','Detalle: Arriendo Chapinero'];
       var colors = ['#ef4444','#f59e0b','#3e98cc','#8b5cf6'];
       var smDatasets = pages.map(function(pg,i){
         return {label:pg,data:data.map(function(d){
