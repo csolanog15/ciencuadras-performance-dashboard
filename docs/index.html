@@ -559,7 +559,12 @@
     fetch('data.json').then(function(res){return res.json();}).then(function(data) {
       if (data.length < 2) return;
       var dates = data.map(function(d){return d.date;});
-      var pages = ['Home','Arriendo','Venta','Detalle: Arriendo Chapinero'];
+      var pages = ['Home','Arriendo','Venta'];
+      var detailPage = null;
+      for (var di = 0; di < data[0].results.length; di++) {
+        if (data[0].results[di].page.indexOf('Detalle:') === 0) { detailPage = data[0].results[di].page; break; }
+      }
+      if (detailPage) pages.push(detailPage);
       var colors = ['#ef4444','#f59e0b','#3e98cc','#8b5cf6'];
       var smDatasets = pages.map(function(pg,i){
         return {label:pg,data:data.map(function(d){
