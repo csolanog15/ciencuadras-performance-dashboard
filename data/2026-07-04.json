@@ -1,0 +1,84 @@
+{
+  "date": "2026-07-04",
+  "time": "14:25",
+  "session": "morning",
+  "results": [
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "mobile",
+      "score": null,
+      "error": "Lighthouse returned error: Something went wrong."
+    },
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "desktop",
+      "score": 79,
+      "lcp": "2.0 s",
+      "lcpMs": 1977.0070566969011,
+      "cls": "0.01",
+      "clsNum": 0.010386000000000001,
+      "tbt": "190 ms",
+      "tbtMs": 189.49999999999977,
+      "fcp": "1.5 s",
+      "fcpMs": 1481.0057438230585
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "mobile",
+      "score": 58,
+      "lcp": "8.3 s",
+      "lcpMs": 8305.026237415259,
+      "cls": "0.107",
+      "clsNum": 0.107476,
+      "tbt": "460 ms",
+      "tbtMs": 455,
+      "fcp": "1.1 s",
+      "fcpMs": 1070.0025228283903
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "desktop",
+      "score": 80,
+      "lcp": "0.7 s",
+      "lcpMs": 741.0106567285445,
+      "cls": "0.027",
+      "clsNum": 0.027193,
+      "tbt": "380 ms",
+      "tbtMs": 375.49741655065554,
+      "fcp": "0.3 s",
+      "fcpMs": 294.00322931168023
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "mobile",
+      "score": 84,
+      "lcp": "3.7 s",
+      "lcpMs": 3683.517806223273,
+      "cls": "0.106",
+      "clsNum": 0.106195,
+      "tbt": "150 ms",
+      "tbtMs": 154,
+      "fcp": "1.1 s",
+      "fcpMs": 1068.0039569385049
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "desktop",
+      "score": 95,
+      "lcp": "0.7 s",
+      "lcpMs": 735.0493897458566,
+      "cls": "0.028",
+      "clsNum": 0.027524999999999997,
+      "tbt": "180 ms",
+      "tbtMs": 176.0000000000001,
+      "fcp": "0.3 s",
+      "fcpMs": 313.0154342955801
+    }
+  ]
+}
