@@ -2658,5 +2658,75 @@
         "fcpMs": 297.0040369649118
       }
     ]
+  },
+  {
+    "date": "2026-07-06",
+    "time": "16:17",
+    "session": "morning",
+    "results": [
+      {
+        "url": "https://www.ciencuadras.com/",
+        "page": "Home",
+        "strategy": "mobile",
+        "score": null,
+        "error": "Lighthouse returned error: Something went wrong."
+      },
+      {
+        "url": "https://www.ciencuadras.com/",
+        "page": "Home",
+        "strategy": "desktop",
+        "score": null,
+        "error": "Lighthouse returned error: Something went wrong."
+      },
+      {
+        "url": "https://www.ciencuadras.com/arriendo",
+        "page": "Arriendo",
+        "strategy": "mobile",
+        "score": null,
+        "error": "Lighthouse returned error: Something went wrong."
+      },
+      {
+        "url": "https://www.ciencuadras.com/arriendo",
+        "page": "Arriendo",
+        "strategy": "desktop",
+        "score": 78,
+        "lcp": "0.9 s",
+        "lcpMs": 913.5127886734774,
+        "cls": "0.027",
+        "clsNum": 0.026732000000000002,
+        "tbt": "380 ms",
+        "tbtMs": 375.496720852954,
+        "fcp": "0.3 s",
+        "fcpMs": 298.00327914704553
+      },
+      {
+        "url": "https://www.ciencuadras.com/venta",
+        "page": "Venta",
+        "strategy": "mobile",
+        "score": 87,
+        "lcp": "2.4 s",
+        "lcpMs": 2402.007135412764,
+        "cls": "0.106",
+        "clsNum": 0.10624,
+        "tbt": "290 ms",
+        "tbtMs": 294.99976555361263,
+        "fcp": "1.1 s",
+        "fcpMs": 1074.0025483617014
+      },
+      {
+        "url": "https://www.ciencuadras.com/venta",
+        "page": "Venta",
+        "strategy": "desktop",
+        "score": 94,
+        "lcp": "0.9 s",
+        "lcpMs": 881.0101851919629,
+        "cls": "0.027",
+        "clsNum": 0.027238,
+        "tbt": "170 ms",
+        "tbtMs": 168.49872685100456,
+        "fcp": "0.3 s",
+        "fcpMs": 296.0025462979907
+      }
+    ]
   }
 ]
