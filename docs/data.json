@@ -2910,5 +2910,89 @@
         "fcpMs": 299.00934485126777
       }
     ]
+  },
+  {
+    "date": "2026-07-07",
+    "time": "21:23",
+    "session": "afternoon",
+    "results": [
+      {
+        "url": "https://www.ciencuadras.com/",
+        "page": "Home",
+        "strategy": "mobile",
+        "score": 36,
+        "lcp": "12.2 s",
+        "lcpMs": 12227.065659118318,
+        "cls": "0.004",
+        "clsNum": 0.004016,
+        "tbt": "910 ms",
+        "tbtMs": 912.0000000000009,
+        "fcp": "8.5 s",
+        "fcpMs": 8477.045011596834
+      },
+      {
+        "url": "https://www.ciencuadras.com/",
+        "page": "Home",
+        "strategy": "desktop",
+        "score": 76,
+        "lcp": "2.0 s",
+        "lcpMs": 1994.0212118674904,
+        "cls": "0.01",
+        "clsNum": 0.010299,
+        "tbt": "230 ms",
+        "tbtMs": 229.99999999999977,
+        "fcp": "1.4 s",
+        "fcpMs": 1402.0162788750508
+      },
+      {
+        "url": "https://www.ciencuadras.com/arriendo",
+        "page": "Arriendo",
+        "strategy": "mobile",
+        "score": null,
+        "error": "Lighthouse returned error: Something went wrong."
+      },
+      {
+        "url": "https://www.ciencuadras.com/arriendo",
+        "page": "Arriendo",
+        "strategy": "desktop",
+        "score": 60,
+        "lcp": "0.7 s",
+        "lcpMs": 675.6186468165861,
+        "cls": "0.026",
+        "clsNum": 0.026192,
+        "tbt": "8,730 ms",
+        "tbtMs": 8732.497670087389,
+        "fcp": "0.4 s",
+        "fcpMs": 401.0062131002969
+      },
+      {
+        "url": "https://www.ciencuadras.com/venta",
+        "page": "Venta",
+        "strategy": "mobile",
+        "score": 71,
+        "lcp": "3.6 s",
+        "lcpMs": 3562.0106609109985,
+        "cls": "0.106",
+        "clsNum": 0.105548,
+        "tbt": "590 ms",
+        "tbtMs": 590.5,
+        "fcp": "1.1 s",
+        "fcpMs": 1089.002479281628
+      },
+      {
+        "url": "https://www.ciencuadras.com/venta",
+        "page": "Venta",
+        "strategy": "desktop",
+        "score": 76,
+        "lcp": "0.9 s",
+        "lcpMs": 883.0281498697384,
+        "cls": "0.027",
+        "clsNum": 0.026663,
+        "tbt": "500 ms",
+        "tbtMs": 496.99061671008735,
+        "fcp": "0.3 s",
+        "fcpMs": 302.00781940826073
+      }
+    ]
   }
 ]
