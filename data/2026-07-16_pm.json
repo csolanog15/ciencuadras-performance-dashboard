@@ -1,0 +1,77 @@
+{
+  "date": "2026-07-16",
+  "time": "20:55",
+  "session": "afternoon",
+  "results": [
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "mobile",
+      "score": 51,
+      "lcp": "12.4 s",
+      "lcpMs": 12379.005892566707,
+      "cls": "0.004",
+      "clsNum": 0.00401577372296181,
+      "tbt": "290 ms",
+      "tbtMs": 291.5,
+      "fcp": "8.6 s",
+      "fcpMs": 8606.003989377457
+    },
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "desktop",
+      "score": 66,
+      "lcp": "1.7 s",
+      "lcpMs": 1732.0163154300835,
+      "cls": "0.01",
+      "clsNum": 0.01035878830639325,
+      "tbt": "430 ms",
+      "tbtMs": 430,
+      "fcp": "1.6 s",
+      "fcpMs": 1561.0147236808073
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "mobile",
+      "score": null,
+      "error": "Lighthouse returned error: Something went wrong."
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "desktop",
+      "score": null,
+      "error": "Lighthouse returned error: Something went wrong."
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "mobile",
+      "score": 74,
+      "lcp": "2.1 s",
+      "lcpMs": 2110.746285914242,
+      "cls": "0.106",
+      "clsNum": 0.10618871926216983,
+      "tbt": "770 ms",
+      "tbtMs": 767.4999999999991,
+      "fcp": "1.1 s",
+      "fcpMs": 1073.014083933895
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "desktop",
+      "score": 80,
+      "lcp": "0.7 s",
+      "lcpMs": 701.022520530176,
+      "cls": "0.027",
+      "clsNum": 0.026773343139089523,
+      "tbt": "420 ms",
+      "tbtMs": 421.5,
+      "fcp": "0.3 s",
+      "fcpMs": 299.00726468715357
+    }
+  ]
+}
