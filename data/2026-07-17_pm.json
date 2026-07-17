@@ -1,0 +1,63 @@
+{
+  "date": "2026-07-17",
+  "time": "19:48",
+  "session": "afternoon",
+  "results": [
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "mobile",
+      "score": 32,
+      "lcp": "14.0 s",
+      "lcpMs": 14036.717253027087,
+      "cls": "0",
+      "clsNum": 0.0003599590149124731,
+      "tbt": "1,360 ms",
+      "tbtMs": 1356.5,
+      "fcp": "8.5 s",
+      "fcpMs": 8476.012699734725
+    },
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "desktop",
+      "score": 58,
+      "lcp": "1.7 s",
+      "lcpMs": 1731.0228289545203,
+      "cls": "0",
+      "clsNum": 0.00005995971447357072,
+      "tbt": "850 ms",
+      "tbtMs": 846.4974943830412,
+      "fcp": "1.5 s",
+      "fcpMs": 1481.0194881319076
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "mobile",
+      "score": null,
+      "error": "Lighthouse returned error: FAILED_DOCUMENT_REQUEST. Lighthouse was unable to reliably load the page you requested. Make sure you are testing the correct URL and that the server is properly responding to all requests. (Details: net::ERR_TIMED_OUT)"
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "desktop",
+      "score": null,
+      "error": "Lighthouse returned error: FAILED_DOCUMENT_REQUEST. Lighthouse was unable to reliably load the page you requested. Make sure you are testing the correct URL and that the server is properly responding to all requests. (Details: net::ERR_TIMED_OUT)"
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "mobile",
+      "score": null,
+      "error": "Lighthouse returned error: FAILED_DOCUMENT_REQUEST. Lighthouse was unable to reliably load the page you requested. Make sure you are testing the correct URL and that the server is properly responding to all requests. (Details: net::ERR_TIMED_OUT)"
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "desktop",
+      "score": null,
+      "error": "Lighthouse returned error: FAILED_DOCUMENT_REQUEST. Lighthouse was unable to reliably load the page you requested. Make sure you are testing the correct URL and that the server is properly responding to all requests. (Details: net::ERR_TIMED_OUT)"
+    }
+  ]
+}
