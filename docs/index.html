@@ -472,7 +472,12 @@
       var results = (latest.results || []).filter(function(r){ return r.score !== null; });
       document.getElementById('lastDate').textContent = latest.date + ' ' + latest.time + ' (' + latest.session + ')';
       var mainP = results.filter(function(r){return !r.page.startsWith('Detalle:');});
-      var sampP = results.filter(function(r){return r.page.startsWith('Detalle:');});
+      // Para inmuebles, buscar la ultima sesion que tenga datos de Detalle
+      var sampP = [];
+      for (var si = data.length - 1; si >= 0; si--) {
+        var sValid = (data[si].results || []).filter(function(r){ return r.score !== null && r.page.indexOf('Detalle:') === 0; });
+        if (sValid.length >= 2) { sampP = sValid; break; }
+      }
       var mob = mainP.filter(function(r){return r.strategy==='mobile';});
       var dsk = mainP.filter(function(r){return r.strategy==='desktop';});
       var gA = avg(results.map(function(r){return r.score;}));
