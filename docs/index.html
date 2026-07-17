@@ -463,8 +463,13 @@
 
   function loadDashboard() {
     fetch('data.json').then(function(res){return res.json();}).then(function(data) {
+      // Buscar la ultima sesion con resultados validos (score != null)
       var latest = data[data.length - 1];
-      var results = latest.results || [];
+      for (var li = data.length - 1; li >= 0; li--) {
+        var validResults = data[li].results.filter(function(r){ return r.score !== null; });
+        if (validResults.length >= 4) { latest = data[li]; break; }
+      }
+      var results = (latest.results || []).filter(function(r){ return r.score !== null; });
       document.getElementById('lastDate').textContent = latest.date + ' ' + latest.time + ' (' + latest.session + ')';
       var mainP = results.filter(function(r){return !r.page.startsWith('Detalle:');});
       var sampP = results.filter(function(r){return r.page.startsWith('Detalle:');});
