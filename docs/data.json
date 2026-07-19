@@ -5241,5 +5241,96 @@
         "fcpMs": 298.00459709228494
       }
     ]
+  },
+  {
+    "date": "2026-07-19",
+    "time": "20:43",
+    "session": "afternoon",
+    "results": [
+      {
+        "url": "https://www.ciencuadras.com/",
+        "page": "Home",
+        "strategy": "mobile",
+        "score": 27,
+        "lcp": "13.1 s",
+        "lcpMs": 13053.068274367477,
+        "cls": "0.004",
+        "clsNum": 0.00401577372296181,
+        "tbt": "2,540 ms",
+        "tbtMs": 2543.999999999998,
+        "fcp": "8.1 s",
+        "fcpMs": 8103.04176784834
+      },
+      {
+        "url": "https://www.ciencuadras.com/",
+        "page": "Home",
+        "strategy": "desktop",
+        "score": 63,
+        "lcp": "2.0 s",
+        "lcpMs": 1991.0208067494432,
+        "cls": "0.01",
+        "clsNum": 0.01029882859191968,
+        "tbt": "470 ms",
+        "tbtMs": 469.9974848984193,
+        "fcp": "1.5 s",
+        "fcpMs": 1482.0160051918792
+      },
+      {
+        "url": "https://www.ciencuadras.com/arriendo",
+        "page": "Arriendo",
+        "strategy": "mobile",
+        "score": 58,
+        "lcp": "3.0 s",
+        "lcpMs": 3001.035899786405,
+        "cls": "0.106",
+        "clsNum": 0.1055477091219255,
+        "tbt": "1,750 ms",
+        "tbtMs": 1745.5851960521122,
+        "fcp": "1.7 s",
+        "fcpMs": 1651.0179498932034
+      },
+      {
+        "url": "https://www.ciencuadras.com/arriendo",
+        "page": "Arriendo",
+        "strategy": "desktop",
+        "score": 79,
+        "lcp": "0.6 s",
+        "lcpMs": 573.8269744185246,
+        "cls": "0.027",
+        "clsNum": 0.027349774072900145,
+        "tbt": "470 ms",
+        "tbtMs": 466.50000000000045,
+        "fcp": "0.3 s",
+        "fcpMs": 297.00396945318886
+      },
+      {
+        "url": "https://www.ciencuadras.com/venta",
+        "page": "Venta",
+        "strategy": "mobile",
+        "score": 64,
+        "lcp": "2.2 s",
+        "lcpMs": 2190.5329027466482,
+        "cls": "0.106",
+        "clsNum": 0.1055477091219255,
+        "tbt": "1,360 ms",
+        "tbtMs": 1361.5558370779108,
+        "fcp": "1.1 s",
+        "fcpMs": 1073.0069082161617
+      },
+      {
+        "url": "https://www.ciencuadras.com/venta",
+        "page": "Venta",
+        "strategy": "desktop",
+        "score": 64,
+        "lcp": "0.7 s",
+        "lcpMs": 681.0252786605228,
+        "cls": "0.026",
+        "clsNum": 0.026479731288554856,
+        "tbt": "1,930 ms",
+        "tbtMs": 1930.0000000000005,
+        "fcp": "0.3 s",
+        "fcpMs": 306.0084262201742
+      }
+    ]
   }
 ]
