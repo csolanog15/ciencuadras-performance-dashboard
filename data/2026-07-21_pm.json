@@ -1,0 +1,91 @@
+{
+  "date": "2026-07-21",
+  "time": "21:05",
+  "session": "afternoon",
+  "results": [
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "mobile",
+      "score": 47,
+      "lcp": "11.8 s",
+      "lcpMs": 11776.01537882255,
+      "cls": "0.005",
+      "clsNum": 0.004920661514599026,
+      "tbt": "410 ms",
+      "tbtMs": 414,
+      "fcp": "8.3 s",
+      "fcpMs": 8251.010654609086
+    },
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "desktop",
+      "score": 55,
+      "lcp": "1.7 s",
+      "lcpMs": 1692.0220920758613,
+      "cls": "0.01",
+      "clsNum": 0.01029882859191968,
+      "tbt": "1,240 ms",
+      "tbtMs": 1235.4977907924142,
+      "fcp": "1.5 s",
+      "fcpMs": 1522.019882868275
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "mobile",
+      "score": 47,
+      "lcp": "9.1 s",
+      "lcpMs": 9065.888391199862,
+      "cls": "0.106",
+      "clsNum": 0.10618871926216983,
+      "tbt": "840 ms",
+      "tbtMs": 843.0000000000009,
+      "fcp": "1.8 s",
+      "fcpMs": 1821.7707465642102
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "desktop",
+      "score": 65,
+      "lcp": "0.8 s",
+      "lcpMs": 761.0210937611876,
+      "cls": "0.026",
+      "clsNum": 0.026481031435424816,
+      "tbt": "1,530 ms",
+      "tbtMs": 1533.0000000000007,
+      "fcp": "0.5 s",
+      "fcpMs": 515.4037997781649
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "mobile",
+      "score": 61,
+      "lcp": "4.4 s",
+      "lcpMs": 4351.021176911781,
+      "cls": "0.106",
+      "clsNum": 0.10618871926216983,
+      "tbt": "660 ms",
+      "tbtMs": 658.9999999999982,
+      "fcp": "1.8 s",
+      "fcpMs": 1828.1054327865404
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "desktop",
+      "score": 68,
+      "lcp": "0.8 s",
+      "lcpMs": 768.0201657850746,
+      "cls": "0.027",
+      "clsNum": 0.026514793843340097,
+      "tbt": "1,000 ms",
+      "tbtMs": 1001.5907578476156,
+      "fcp": "0.3 s",
+      "fcpMs": 297.0063018078358
+    }
+  ]
+}
