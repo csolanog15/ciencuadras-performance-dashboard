@@ -7222,5 +7222,89 @@
         "fcpMs": 518.0877312704373
       }
     ]
+  },
+  {
+    "date": "2026-07-28",
+    "time": "15:14",
+    "session": "morning",
+    "results": [
+      {
+        "url": "https://www.ciencuadras.com/",
+        "page": "Home",
+        "strategy": "mobile",
+        "score": 51,
+        "lcp": "11.0 s",
+        "lcpMs": 10956.010934487833,
+        "cls": "0.004",
+        "clsNum": 0.004375732737874283,
+        "tbt": "280 ms",
+        "tbtMs": 281,
+        "fcp": "8.9 s",
+        "fcpMs": 8854.008874366933
+      },
+      {
+        "url": "https://www.ciencuadras.com/",
+        "page": "Home",
+        "strategy": "desktop",
+        "score": null,
+        "error": "Lighthouse returned error: Something went wrong."
+      },
+      {
+        "url": "https://www.ciencuadras.com/arriendo",
+        "page": "Arriendo",
+        "strategy": "mobile",
+        "score": 82,
+        "lcp": "2.3 s",
+        "lcpMs": 2258.8466616522524,
+        "cls": "0.107",
+        "clsNum": 0.10747303295997601,
+        "tbt": "460 ms",
+        "tbtMs": 456.99780220993125,
+        "fcp": "1.8 s",
+        "fcpMs": 1832.2115458462606
+      },
+      {
+        "url": "https://www.ciencuadras.com/arriendo",
+        "page": "Arriendo",
+        "strategy": "desktop",
+        "score": 57,
+        "lcp": "2.2 s",
+        "lcpMs": 2182.0311263038648,
+        "cls": "0.027",
+        "clsNum": 0.026582287769024073,
+        "tbt": "800 ms",
+        "tbtMs": 799.5577083222963,
+        "fcp": "0.5 s",
+        "fcpMs": 511.0586506805612
+      },
+      {
+        "url": "https://www.ciencuadras.com/venta",
+        "page": "Venta",
+        "strategy": "mobile",
+        "score": 59,
+        "lcp": "8.3 s",
+        "lcpMs": 8273.476260017182,
+        "cls": "0.107",
+        "clsNum": 0.10747303295997601,
+        "tbt": "410 ms",
+        "tbtMs": 408,
+        "fcp": "1.8 s",
+        "fcpMs": 1849.8286164708093
+      },
+      {
+        "url": "https://www.ciencuadras.com/venta",
+        "page": "Venta",
+        "strategy": "desktop",
+        "score": 97,
+        "lcp": "0.5 s",
+        "lcpMs": 531.1612698515708,
+        "cls": "0.027",
+        "clsNum": 0.02663411606278668,
+        "tbt": "130 ms",
+        "tbtMs": 134.49891422412725,
+        "fcp": "0.5 s",
+        "fcpMs": 502.6423796085188
+      }
+    ]
   }
 ]
