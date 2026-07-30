@@ -1,0 +1,92 @@
+{
+  "date": "2026-07-30",
+  "time": "09:57",
+  "session": "morning",
+  "note": "Post-deploy Angular 14 - Validación CWV",
+  "results": [
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "mobile",
+      "score": 56,
+      "lcp": "11.0 s",
+      "lcpMs": 11000,
+      "cls": "0.005",
+      "clsNum": 0.005,
+      "tbt": "140 ms",
+      "tbtMs": 140,
+      "fcp": "7.5 s",
+      "fcpMs": 7500
+    },
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "desktop",
+      "score": 72,
+      "lcp": "2.0 s",
+      "lcpMs": 2000,
+      "cls": "0.01",
+      "clsNum": 0.01,
+      "tbt": "280 ms",
+      "tbtMs": 280,
+      "fcp": "1.5 s",
+      "fcpMs": 1500
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "mobile",
+      "score": 84,
+      "lcp": "2.4 s",
+      "lcpMs": 2400,
+      "cls": "0.106",
+      "clsNum": 0.106,
+      "tbt": "380 ms",
+      "tbtMs": 380,
+      "fcp": "1.8 s",
+      "fcpMs": 1800
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "desktop",
+      "score": 80,
+      "lcp": "0.8 s",
+      "lcpMs": 800,
+      "cls": "0.027",
+      "clsNum": 0.027,
+      "tbt": "400 ms",
+      "tbtMs": 400,
+      "fcp": "0.6 s",
+      "fcpMs": 600
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "mobile",
+      "score": 77,
+      "lcp": "3.5 s",
+      "lcpMs": 3500,
+      "cls": "0.106",
+      "clsNum": 0.106,
+      "tbt": "310 ms",
+      "tbtMs": 310,
+      "fcp": "1.8 s",
+      "fcpMs": 1800
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "desktop",
+      "score": 95,
+      "lcp": "0.6 s",
+      "lcpMs": 600,
+      "cls": "0.027",
+      "clsNum": 0.027,
+      "tbt": "170 ms",
+      "tbtMs": 170,
+      "fcp": "0.5 s",
+      "fcpMs": 500
+    }
+  ]
+}
