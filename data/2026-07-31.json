@@ -1,0 +1,92 @@
+{
+  "date": "2026-07-31",
+  "time": "08:41",
+  "session": "morning",
+  "note": "Medición día siguiente post-deploy Angular 14",
+  "results": [
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "mobile",
+      "score": 53,
+      "lcp": "10.9 s",
+      "lcpMs": 10900,
+      "cls": "0.005",
+      "clsNum": 0.005,
+      "tbt": "230 ms",
+      "tbtMs": 230,
+      "fcp": "8.6 s",
+      "fcpMs": 8600
+    },
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "desktop",
+      "score": 66,
+      "lcp": "1.8 s",
+      "lcpMs": 1800,
+      "cls": "0.01",
+      "clsNum": 0.01,
+      "tbt": "410 ms",
+      "tbtMs": 410,
+      "fcp": "1.5 s",
+      "fcpMs": 1500
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "mobile",
+      "score": 77,
+      "lcp": "4.7 s",
+      "lcpMs": 4700,
+      "cls": "0.106",
+      "clsNum": 0.106,
+      "tbt": "120 ms",
+      "tbtMs": 120,
+      "fcp": "1.9 s",
+      "fcpMs": 1900
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "desktop",
+      "score": 74,
+      "lcp": "0.8 s",
+      "lcpMs": 800,
+      "cls": "0.027",
+      "clsNum": 0.027,
+      "tbt": "610 ms",
+      "tbtMs": 610,
+      "fcp": "0.5 s",
+      "fcpMs": 500
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "mobile",
+      "score": 75,
+      "lcp": "2.9 s",
+      "lcpMs": 2900,
+      "cls": "0.106",
+      "clsNum": 0.106,
+      "tbt": "510 ms",
+      "tbtMs": 510,
+      "fcp": "1.8 s",
+      "fcpMs": 1800
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "desktop",
+      "score": 73,
+      "lcp": "0.9 s",
+      "lcpMs": 900,
+      "cls": "0.027",
+      "clsNum": 0.027,
+      "tbt": "510 ms",
+      "tbtMs": 510,
+      "fcp": "0.5 s",
+      "fcpMs": 500
+    }
+  ]
+}
