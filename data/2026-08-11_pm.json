@@ -1,0 +1,84 @@
+{
+  "date": "2026-08-11",
+  "time": "20:39",
+  "session": "afternoon",
+  "results": [
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "mobile",
+      "score": 51,
+      "lcp": "12.4 s",
+      "lcpMs": 12415.528708121004,
+      "cls": "0",
+      "clsNum": 0,
+      "tbt": "270 ms",
+      "tbtMs": 273.5,
+      "fcp": "9.0 s",
+      "fcpMs": 8965.52045453622
+    },
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "desktop",
+      "score": 80,
+      "lcp": "1.7 s",
+      "lcpMs": 1732.0046366730735,
+      "cls": "0",
+      "clsNum": 0.0000873448669534082,
+      "tbt": "200 ms",
+      "tbtMs": 199,
+      "fcp": "1.5 s",
+      "fcpMs": 1521.0040712251373
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "mobile",
+      "score": 87,
+      "lcp": "2.5 s",
+      "lcpMs": 2483.7997562824085,
+      "cls": "0.106",
+      "clsNum": 0.10618871926216983,
+      "tbt": "240 ms",
+      "tbtMs": 239,
+      "fcp": "1.1 s",
+      "fcpMs": 1075.0016826921108
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "desktop",
+      "score": 84,
+      "lcp": "0.7 s",
+      "lcpMs": 681.0075514639545,
+      "cls": "0.027",
+      "clsNum": 0.02687913816043357,
+      "tbt": "340 ms",
+      "tbtMs": 336.9969794144183,
+      "fcp": "0.5 s",
+      "fcpMs": 510.83790325238715
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "mobile",
+      "score": 84,
+      "lcp": "2.4 s",
+      "lcpMs": 2404.510620479331,
+      "cls": "0.106",
+      "clsNum": 0.10618871926216983,
+      "tbt": "350 ms",
+      "tbtMs": 353.5,
+      "fcp": "1.8 s",
+      "fcpMs": 1835.1425008005385
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "desktop",
+      "score": null,
+      "error": "Lighthouse returned error: Something went wrong."
+    }
+  ]
+}
