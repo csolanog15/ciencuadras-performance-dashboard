@@ -1,0 +1,91 @@
+{
+  "date": "2026-08-13",
+  "time": "14:17",
+  "session": "morning",
+  "results": [
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "mobile",
+      "score": 57,
+      "lcp": "10.7 s",
+      "lcpMs": 10726.006239888771,
+      "cls": "0.001",
+      "clsNum": 0.0006264503557677947,
+      "tbt": "110 ms",
+      "tbtMs": 111.5,
+      "fcp": "7.7 s",
+      "fcpMs": 7651.0044312253585
+    },
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "desktop",
+      "score": 80,
+      "lcp": "2.0 s",
+      "lcpMs": 1975.0011669605271,
+      "cls": "0",
+      "clsNum": 0.00011254908897621375,
+      "tbt": "170 ms",
+      "tbtMs": 169.5,
+      "fcp": "1.5��s",
+      "fcpMs": 1521.0009769902092
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "mobile",
+      "score": 64,
+      "lcp": "7.4 s",
+      "lcpMs": 7426.019474180373,
+      "cls": "0.106",
+      "clsNum": 0.10618871926216983,
+      "tbt": "290 ms",
+      "tbtMs": 290.5,
+      "fcp": "1.8 s",
+      "fcpMs": 1822.0078755635411
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "desktop",
+      "score": 89,
+      "lcp": "1.6 s",
+      "lcpMs": 1622.4050252666152,
+      "cls": "0.027",
+      "clsNum": 0.026780018376652656,
+      "tbt": "180 ms",
+      "tbtMs": 176.5,
+      "fcp": "0.5 s",
+      "fcpMs": 496.48232198791163
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "mobile",
+      "score": 88,
+      "lcp": "2.6 s",
+      "lcpMs": 2552.0343421988655,
+      "cls": "0.106",
+      "clsNum": 0.10618871926216983,
+      "tbt": "250 ms",
+      "tbtMs": 248.5,
+      "fcp": "1.4 s",
+      "fcpMs": 1370.001319011622
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "desktop",
+      "score": 80,
+      "lcp": "0.8 s",
+      "lcpMs": 822.0060721772277,
+      "cls": "0.027",
+      "clsNum": 0.026770709082568612,
+      "tbt": "380 ms",
+      "tbtMs": 382,
+      "fcp": "0.6 s",
+      "fcpMs": 562.0039387095532
+    }
+  ]
+}
