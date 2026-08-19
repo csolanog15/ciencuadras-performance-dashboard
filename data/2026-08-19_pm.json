@@ -1,0 +1,84 @@
+{
+  "date": "2026-08-19",
+  "time": "20:22",
+  "session": "afternoon",
+  "results": [
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "mobile",
+      "score": 54,
+      "lcp": "12.9 s",
+      "lcpMs": 12903.01557459998,
+      "cls": "0",
+      "clsNum": 0,
+      "tbt": "170 ms",
+      "tbtMs": 173,
+      "fcp": "8.7 s",
+      "fcpMs": 8707.010290360704
+    },
+    {
+      "url": "https://www.ciencuadras.com/",
+      "page": "Home",
+      "strategy": "desktop",
+      "score": 81,
+      "lcp": "2.0 s",
+      "lcpMs": 1968,
+      "cls": "0",
+      "clsNum": 0.0000873448669534082,
+      "tbt": "150 ms",
+      "tbtMs": 153.00000000000023,
+      "fcp": "1.5 s",
+      "fcpMs": 1481
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "mobile",
+      "score": 89,
+      "lcp": "2.3 s",
+      "lcpMs": 2252.004665879619,
+      "cls": "0.106",
+      "clsNum": 0.10618871926216983,
+      "tbt": "240 ms",
+      "tbtMs": 242.50022903398258,
+      "fcp": "1.8 s",
+      "fcpMs": 1828.562048911972
+    },
+    {
+      "url": "https://www.ciencuadras.com/arriendo",
+      "page": "Arriendo",
+      "strategy": "desktop",
+      "score": null,
+      "error": "Lighthouse returned error: Something went wrong."
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "mobile",
+      "score": 41,
+      "lcp": "8.0 s",
+      "lcpMs": 7953.9444380505265,
+      "cls": "0.106",
+      "clsNum": 0.10618871926216983,
+      "tbt": "780 ms",
+      "tbtMs": 776.9999999999993,
+      "fcp": "4.2 s",
+      "fcpMs": 4207.023563951491
+    },
+    {
+      "url": "https://www.ciencuadras.com/venta",
+      "page": "Venta",
+      "strategy": "desktop",
+      "score": 81,
+      "lcp": "0.8 s",
+      "lcpMs": 821,
+      "cls": "0.027",
+      "clsNum": 0.027271786059321616,
+      "tbt": "390 ms",
+      "tbtMs": 387.5,
+      "fcp": "0.6 s",
+      "fcpMs": 561
+    }
+  ]
+}
