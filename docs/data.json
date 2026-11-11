@@ -20104,5 +20104,54 @@
         "error": "API key expired. Please renew the API key."
       }
     ]
+  },
+  {
+    "date": "2026-11-11",
+    "time": "00:23",
+    "session": "morning",
+    "results": [
+      {
+        "url": "https://www.ciencuadras.com/",
+        "page": "Home",
+        "strategy": "mobile",
+        "score": null,
+        "error": "API key expired. Please renew the API key."
+      },
+      {
+        "url": "https://www.ciencuadras.com/",
+        "page": "Home",
+        "strategy": "desktop",
+        "score": null,
+        "error": "API key expired. Please renew the API key."
+      },
+      {
+        "url": "https://www.ciencuadras.com/arriendo",
+        "page": "Arriendo",
+        "strategy": "mobile",
+        "score": null,
+        "error": "API key expired. Please renew the API key."
+      },
+      {
+        "url": "https://www.ciencuadras.com/arriendo",
+        "page": "Arriendo",
+        "strategy": "desktop",
+        "score": null,
+        "error": "API key expired. Please renew the API key."
+      },
+      {
+        "url": "https://www.ciencuadras.com/venta",
+        "page": "Venta",
+        "strategy": "mobile",
+        "score": null,
+        "error": "API key expired. Please renew the API key."
+      },
+      {
+        "url": "https://www.ciencuadras.com/venta",
+        "page": "Venta",
+        "strategy": "desktop",
+        "score": null,
+        "error": "API key expired. Please renew the API key."
+      }
+    ]
   }
 ]
